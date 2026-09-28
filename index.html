@@ -294,6 +294,55 @@
     .wcell .print-mirror{font-size:11px;padding:4px 6px}
     .panel .print-mirror{font-size:13px;padding:10px 14px;min-height:0}
   }
+
+  /* ===== шаблон тижня і канікули ===== */
+  .vacbanner{display:none;align-items:center;gap:12px;background:linear-gradient(180deg,#FFF1BF,#FFD66B);color:#6B4A00;font-weight:800;border-radius:18px;padding:12px 18px;margin-bottom:12px;box-shadow:var(--shadow-sm);line-height:1.3}
+  .vacbanner .vb-ic{font-size:28px}
+  .vacbanner small{font-weight:700;opacity:.85}
+  .row.tpl .cell-time::after{content:"🔁 шаблон";position:absolute;bottom:3px;left:0;right:0;text-align:center;font-size:9px;font-weight:800;color:var(--ink-soft);opacity:.75}
+  .whead.vac{background:linear-gradient(180deg,#FFC94D,#F5A300)}
+  .wcell.vaccol{background:#FFFBEA}
+  #tplBoard{display:none}
+  .tpl-intro{background:var(--card);border-radius:18px;padding:12px 16px;box-shadow:var(--shadow-sm);font-weight:700;font-size:14px;color:var(--ink-soft);margin-bottom:12px;line-height:1.45}
+  .tpl-intro b{color:var(--purple-d)}
+  .tpl-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+  .tpl-days{display:inline-flex;flex-wrap:wrap;gap:4px;background:#fff;border-radius:999px;padding:5px;box-shadow:var(--shadow-sm)}
+  .tpl-days button{font:inherit;font-weight:800;font-size:15px;border:0;background:transparent;color:var(--ink-soft);padding:8px 13px;border-radius:999px;cursor:pointer;position:relative}
+  .tpl-days button.filled::after{content:"";position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--green)}
+  .tpl-days button.active{background:linear-gradient(180deg,#B57BFF,#8B5CF6);color:#fff;box-shadow:0 5px 12px -5px rgba(139,92,246,.8)}
+  .tpl-days button.active.filled::after{background:#fff}
+  .tpl-copy{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;background:#fff;border-radius:999px;padding:5px 5px 5px 14px;box-shadow:var(--shadow-sm);font-weight:800;font-size:13px;color:var(--ink-soft)}
+  .tpl-copy b{color:var(--ink)}
+  .tpl-copy select{font:inherit;font-weight:800;font-size:13px;border:2px solid #E5EDF4;border-radius:999px;padding:6px 10px;background:#F5F9FD;color:var(--ink);outline:none}
+  .tpl-copy .btn{padding:7px 14px;font-size:13px}
+  .row-head.tplhead,.row.tplrow{grid-template-columns:96px 170px 1fr}
+  .vacpanel{margin-top:22px}
+  .vacpanel h2{background:linear-gradient(180deg,#FFC94D,#F5A300)}
+  .vac-empty{padding:16px 18px;font-weight:700;color:var(--ink-soft);font-size:14px}
+  .vacitem{display:grid;grid-template-columns:1.3fr 1fr 1fr auto auto;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .vacitem input[type=text],.vacitem input[type=date]{font:inherit;font-weight:700;font-size:15px;border:2px solid #E7EFF8;background:#F6FAFF;border-radius:12px;padding:8px 10px;width:100%;color:var(--ink);min-width:0;outline:none}
+  .vacitem input:focus{border-color:var(--gold);background:#fff}
+  .vacitem .vd{display:flex;align-items:center;gap:6px;font-weight:800;color:var(--ink-soft);font-size:13px;min-width:0}
+  .vacitem .chk{font-size:13px;font-weight:800;display:flex;gap:6px;align-items:center;color:var(--ink-soft);cursor:pointer}
+  .vacitem .chk input{width:18px;height:18px;accent-color:var(--orange)}
+  .vacitem .del{border:0;background:#FFE3DF;color:#E0412E;width:34px;height:34px;border-radius:50%;cursor:pointer;font-weight:900;font-size:14px}
+  .vac-foot{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding:14px 16px}
+  .btn.vacadd{background:linear-gradient(180deg,#FFC94D,#F5A300)}
+  .vac-hint{font-size:12px;font-weight:700;color:var(--ink-soft);flex:1;min-width:200px}
+  body.childmode #tabTpl{display:none}
+  @media(max-width:760px){
+    .seg button{padding:8px 14px}
+    .row.tplrow{grid-template-columns:1fr}
+    .row.tpl .cell-time::after{position:static;margin-left:auto;font-size:11px}
+    .tpl-days,.tpl-copy{border-radius:18px}
+    .vacitem{grid-template-columns:1fr 1fr}
+    .vacitem .vname{grid-column:1/-1}
+    .vacitem .del{justify-self:end}
+  }
+  @media print{
+    .tpl-top,.tpl-intro,.vac-foot,.vacitem .del,.row.tpl .cell-time::after{display:none !important}
+    .vacbanner{box-shadow:none}
+  }
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -407,7 +456,7 @@
   </div>
 
   <div class="toolbar">
-    <div class="seg"><button id="tabDay" class="active">День</button><button id="tabWeek">Тиждень</button></div>
+    <div class="seg"><button id="tabDay" class="active">День</button><button id="tabWeek">Тиждень</button><button id="tabTpl">🔁 Шаблон</button></div>
     <span class="day-nav" id="dayNav">
       <button class="btn mini" id="prevDay" title="Попередній день">◀</button>
       <span class="day-name" id="dayName">—</span>
@@ -425,6 +474,8 @@
 
   <div id="childHint" style="display:none">👀 Розклад — лише для перегляду. Ти можеш заповнювати тільки <b>✏️ домашнє завдання</b>.</div>
 
+  <div class="vacbanner" id="vacBanner"></div>
+
   <div class="board" id="dayBoard">
     <div class="row-head"><div>Час</div><div>Тип</div><div>Предмет</div><div>Домашнє завдання</div></div>
     <div id="nowline"><span id="nowlabel">зараз</span></div>
@@ -432,7 +483,25 @@
 
   <div class="board" id="weekBoard"><div class="wscroll"><div class="wgrid" id="wgrid"></div></div></div>
 
-  <div class="panels">
+  <div class="board" id="tplBoard">
+    <div class="tpl-intro">🔁 <b>Шаблон тижня</b> — заповніть один раз уроки й гуртки на кожен день тижня, і вони самі з’являться в усіх тижнях. Зміни на конкретну дату (заміна, скасований урок) робіть у вкладці «День» — шаблон від цього не зміниться.</div>
+    <div class="tpl-top">
+      <div class="tpl-days" id="tplDays"></div>
+      <span class="tpl-copy">⧉ Копіювати <b id="tplDayTitle">—</b> на <select id="tplCopyTo"></select><button class="btn clear" id="tplCopyBtn">Копіювати</button></span>
+    </div>
+    <div class="row-head tplhead"><div>Час</div><div>Тип</div><div>Предмет / гурток</div></div>
+    <div id="tplRows"></div>
+    <div class="panel vacpanel">
+      <h2>🏖️ Канікули</h2>
+      <div id="vacList"></div>
+      <div class="vac-foot">
+        <button class="btn vacadd" id="vacAdd">＋ Додати канікули</button>
+        <span class="vac-hint">У дні канікул уроки, перерви й обід із шаблону не показуються, а гуртки лишаються (якщо не відмітити «гуртки теж на паузі»). Дати канікул визначає школа — уточніть у класного керівника.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panels" id="panels">
     <div class="panel extra"><h2>📚 Додаткові заняття</h2><textarea id="extra" placeholder="Репетитор, консультації, підготовка до олімпіад…"></textarea></div>
     <div class="panel club"><h2>🏆 Гуртки</h2><textarea id="clubs" placeholder="Спорт, музика, робототехніка, малювання…"></textarea></div>
     <div class="panel notes"><h2>📝 Нотатки</h2><textarea id="notes" placeholder="Що не забути, контрольні, речі до школи…"></textarea></div>
@@ -451,6 +520,9 @@
   const RC=['#3B9EF5','#FF8A3C','#57C368','#8B5CF6','#FF5DA2','#FFB020','#2CC5B8','#5B7CFA','#FF5A47','#8BC34A','#22B8CF','#E056C9'];
   const ICONS=['📘','✏️','🌍','🧪','🏀','🎵','🎨','💻','📗','🔬','⚽','🎹'];
   const MAX_KIDS=5;
+  const TYPE_OPTS=TYPES.map(t=>`<option value="${t}">${t}</option>`).join('');
+  const SCHOOL_TYPES=["Урок","Перерва","Обід"];
+  const TPL_ORDER=[1,2,3,4,5,6,0];
 
   const $=id=>document.getElementById(id);
   const els={date:$('date'),extra:$('extra'),clubs:$('clubs'),notes:$('notes'),dayName:$('dayName'),saveNote:$('saveNote')};
@@ -468,26 +540,62 @@
   function lsDel(k){try{localStorage.removeItem(k);}catch(e){}}
   function lsKeys(pre){const o=[];for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key&&key.indexOf(pre)===0)o.push(key);}return o;}
   function emptyState(){const rows={};HOURS.forEach(h=>rows[h]={type:"Вільно",subject:"",hw:""});return{extra:"",clubs:"",notes:"",rows};}
+  // ---------- шаблон тижня і канікули (зберігаються в документі акаунта) ----------
+  let tpls={},vacs={};   // {childId:{days:{wd:{hour:{type,subject}}}}}, {childId:[{id,name,from,to,clubsOff}]}
+  const fd=s=>{const d=parse(s);return d.getDate()+' '+MON[d.getMonth()];};
+  function loadTpl(child){return tpls[child]||{days:{}};}
+  function loadVac(child){return vacs[child]||[];}
+  function saveChildField(field,child,val){
+    if(!uid||!db)return;
+    const fp=new firebase.firestore.FieldPath(field,child);
+    userDoc().set({[field]:{[child]:val}},{mergeFields:[fp]}).catch(e=>console.error('save '+field,e));
+  }
+  function saveTpl(child,t){tpls[child]=t;saveChildField('tpls',child,t);flashSaved();}
+  function saveVac(child,v){vacs[child]=v;saveChildField('vacs',child,v);flashSaved();}
+  function vacFor(child,d){return loadVac(child).find(v=>v.from&&v.to&&d>=v.from&&d<=v.to)||null;}
+  function baseRows(child,d){
+    const tpl=loadTpl(child),day=(tpl.days&&tpl.days[parse(d).getDay()])||{},vac=vacFor(child,d),rows={};
+    HOURS.forEach(h=>{let r=day[h]||{};const type=r.type||"Вільно";
+      if(vac&&(vac.clubsOff||SCHOOL_TYPES.includes(type)))r={};
+      rows[h]={type:r.type||"Вільно",subject:r.subject||""};});
+    return rows;
+  }
+  // день = шаблон + зміни саме на цю дату
+  function mergeDay(child,d,s){
+    s=s||{};const base=baseRows(child,d),legacy=s.v!==2,rows={};
+    HOURS.forEach(h=>{const b=base[h],o=(s.rows&&s.rows[h])||{};const r={type:b.type,subject:b.subject,hw:o.hw||""};
+      if(legacy){if((o.type&&o.type!=="Вільно")||o.subject){r.type=o.type||"Вільно";r.subject=o.subject||"";}}
+      else{if('type' in o)r.type=o.type;if('subject' in o)r.subject=o.subject;}
+      rows[h]=r;});
+    return{extra:s.extra||"",clubs:s.clubs||"",notes:s.notes||"",rows,base};
+  }
   async function loadState(child,d){
-    if(!uid||!db)return emptyState();
-    try{const snap=await schCol().doc(child+'_'+d).get();
-      if(snap.exists){const x=snap.data();const e=emptyState();return{extra:x.extra||"",clubs:x.clubs||"",notes:x.notes||"",rows:Object.assign(e.rows,x.rows||{})};}
-    }catch(err){console.error('load',err);}
-    return emptyState();
+    let x=null;
+    if(uid&&db){try{const snap=await schCol().doc(child+'_'+d).get();if(snap.exists)x=snap.data();}catch(err){console.error('load',err);}}
+    return mergeDay(child,d,x);
   }
   function saveState(child,d,s){
     if(!uid||!db)return;
-    schCol().doc(child+'_'+d).set(Object.assign({childId:child,date:d},s)).catch(err=>console.error('save',err));
+    const base=baseRows(child,d),rows={};
+    HOURS.forEach(h=>{const r=(s.rows&&s.rows[h])||{},b=base[h],o={};
+      if((r.type||"Вільно")!==b.type)o.type=r.type||"Вільно";
+      if((r.subject||"")!==b.subject)o.subject=r.subject||"";
+      if(r.hw)o.hw=r.hw;
+      if(Object.keys(o).length)rows[h]=o;});
+    const out={v:2,childId:child,date:d,extra:s.extra||"",clubs:s.clubs||"",notes:s.notes||"",rows};
+    const ref=schCol().doc(child+'_'+d);
+    if(!Object.keys(rows).length&&!out.extra&&!out.clubs&&!out.notes)ref.delete().catch(err=>console.error('del',err));
+    else ref.set(out).catch(err=>console.error('save',err));
     flashSaved();
   }
   let flashT;function flashSaved(){els.saveNote.classList.add('show');clearTimeout(flashT);flashT=setTimeout(()=>els.saveNote.classList.remove('show'),1200);}
   function autolen(ta){ta.style.height='auto';ta.style.height=Math.max(ta.scrollHeight,ta.dataset.min||44)+'px';}
-  function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+  function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 
   // children
   async function loadKids(){
-    kids=[];cur=null;
-    try{const doc=await userDoc().get();if(doc.exists){const d=doc.data();kids=Array.isArray(d.kids)?d.kids:[];cur=d.current;}}catch(e){console.error(e);}
+    kids=[];cur=null;tpls={};vacs={};
+    try{const doc=await userDoc().get();if(doc.exists){const d=doc.data();kids=Array.isArray(d.kids)?d.kids:[];cur=d.current;tpls=d.tpls||{};vacs=d.vacs||{};}}catch(e){console.error(e);}
     if(!kids.length){kids=[{id:genId(),name:'Дитина 1'}];cur=kids[0].id;saveKids();}
     if(!kids.find(k=>k.id===cur))cur=kids[0].id;
   }
@@ -498,10 +606,15 @@
     $('addChild').disabled=kids.length>=MAX_KIDS;$('addChild').textContent=kids.length>=MAX_KIDS?'максимум 5':'＋ дитина';
     updateAccountControls();
   }
-  async function flushSaves(){if(view==='day'){clearTimeout(daySaveT);await saveState(cur,els.date.value,collectDay());}else if(pendingWeekDate){clearTimeout(weekSaveT);await saveState(cur,pendingWeekDate,weekCache[pendingWeekDate]);pendingWeekDate=null;}}
-  async function selectChild(id){if(id===cur)return;await flushSaves();cur=id;await saveKids();renderPills();view==='day'?await refreshDay():await renderWeek();}
-  async function addChild(){if(kids.length>=MAX_KIDS)return;await flushSaves();const k={id:genId(),name:''};kids.push(k);cur=k.id;await saveKids();renderPills();startEdit($('pills').querySelector('.pill[data-id="'+k.id+'"] .pname'));view==='day'?await refreshDay():await renderWeek();}
-  async function removeChild(id){if(kids.length<=1){alert('Має лишитися хоча б одна дитина.');return;}const k=kids.find(x=>x.id===id);if(!confirm(`Видалити «${k.name}» разом з її розкладом?`))return;try{const q=await schCol().where('childId','==',id).get();const b=db.batch();q.forEach(dd=>b.delete(dd.ref));await b.commit();}catch(e){console.error(e);}kids=kids.filter(x=>x.id!==id);if(cur===id)cur=kids[0].id;saveKids();renderPills();view==='day'?await refreshDay():await renderWeek();}
+  async function flushSaves(){
+    if(daySaveT){clearTimeout(daySaveT);daySaveT=null;saveState(daySaveChild,daySaveDate,collectDay());}
+    if(pendingWeekDate){clearTimeout(weekSaveT);saveState(cur,pendingWeekDate,weekCache[pendingWeekDate]);pendingWeekDate=null;}
+    saveTplDay();
+  }
+  async function rerender(){if(view==='day')await refreshDay();else if(view==='week')await renderWeek();else{renderTplDays();applyTpl();renderVac();}updateVacBanner();}
+  async function selectChild(id){if(id===cur)return;await flushSaves();cur=id;await saveKids();renderPills();await rerender();}
+  async function addChild(){if(kids.length>=MAX_KIDS)return;await flushSaves();const k={id:genId(),name:''};kids.push(k);cur=k.id;await saveKids();renderPills();startEdit($('pills').querySelector('.pill[data-id="'+k.id+'"] .pname'));await rerender();}
+  async function removeChild(id){if(kids.length<=1){alert('Має лишитися хоча б одна дитина.');return;}const k=kids.find(x=>x.id===id);if(!confirm(`Видалити «${k.name}» разом з її розкладом?`))return;await flushSaves();try{const q=await schCol().where('childId','==',id).get();const b=db.batch();q.forEach(dd=>b.delete(dd.ref));await b.commit();}catch(e){console.error(e);}delete tpls[id];delete vacs[id];try{const del=firebase.firestore.FieldValue.delete();await userDoc().update(new firebase.firestore.FieldPath('tpls',id),del,new firebase.firestore.FieldPath('vacs',id),del);}catch(e){console.error(e);}kids=kids.filter(x=>x.id!==id);if(cur===id)cur=kids[0].id;saveKids();renderPills();await rerender();}
   async function renameChild(id,name){const k=kids.find(x=>x.id===id);if(!k)return;name=(name||'').trim().slice(0,24);if(!name)name=(k.name||'').trim()||('Дитина '+(kids.indexOf(k)+1));k.name=name;await saveKids();}
   $('pills').addEventListener('click',e=>{const pill=e.target.closest('.pill');if(!pill)return;const id=pill.dataset.id;if(e.target.classList.contains('pin')){setChildPin(id);return;}if(e.target.classList.contains('x')){removeChild(id);return;}if(e.target.classList.contains('pname')&&e.target.isContentEditable)return;selectChild(id);});
   function startEdit(s){if(!s)return;s.contentEditable=true;s.focus();const r=document.createRange();r.selectNodeContents(s);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);}
@@ -525,9 +638,12 @@
   dayBoard.querySelectorAll('textarea').forEach(t=>t.dataset.min=52);
   function paintRow(r){const t=r.querySelector('[data-k=type]').value;r.style.setProperty('--rc',TCOL[t]||'#9AA7B0');}
 
+  let curBase={};
+  function markTpl(r){const b=curBase[r.dataset.hour];if(!b){r.classList.remove('tpl');return;}const t=r.querySelector('[data-k=type]').value,s=r.querySelector('[data-k=subject]').value;r.classList.toggle('tpl',b.type!=="Вільно"&&t===b.type&&s===b.subject);}
   function applyDay(state){
+    curBase=state.base||{};
     els.extra.value=state.extra||"";els.clubs.value=state.clubs||"";els.notes.value=state.notes||"";
-    dayBoard.querySelectorAll('.row').forEach(r=>{const d=(state.rows&&state.rows[r.dataset.hour])||{type:"Вільно",subject:"",hw:""};const sel=r.querySelector('[data-k=type]');sel.value=d.type||"Вільно";paintRow(r);r.querySelector('[data-k=subject]').value=d.subject||"";r.querySelector('[data-k=hw]').value=d.hw||"";});
+    dayBoard.querySelectorAll('.row').forEach(r=>{const d=(state.rows&&state.rows[r.dataset.hour])||{type:"Вільно",subject:"",hw:""};const sel=r.querySelector('[data-k=type]');sel.value=d.type||"Вільно";paintRow(r);r.querySelector('[data-k=subject]').value=d.subject||"";r.querySelector('[data-k=hw]').value=d.hw||"";markTpl(r);});
     dayBoard.querySelectorAll('textarea').forEach(autolen);[els.extra,els.clubs,els.notes].forEach(autolen);
     applyChildLock();
   }
@@ -546,7 +662,14 @@
     const hint=$('childHint');if(hint)hint.style.display=lock?'flex':'none';
   }
   function collectDay(){const rows={};dayBoard.querySelectorAll('.row').forEach(r=>{rows[r.dataset.hour]={type:r.querySelector('[data-k=type]').value,subject:r.querySelector('[data-k=subject]').value,hw:r.querySelector('[data-k=hw]').value};});return{extra:els.extra.value,clubs:els.clubs.value,notes:els.notes.value,rows};}
-  let daySaveT;function scheduleDaySave(){clearTimeout(daySaveT);daySaveT=setTimeout(()=>saveState(cur,els.date.value,collectDay()),450);}
+  let daySaveT=null,daySaveDate=null,daySaveChild=null;
+  function scheduleDaySave(){if(!daySaveT){daySaveDate=els.date.value;daySaveChild=cur;}clearTimeout(daySaveT);daySaveT=setTimeout(()=>{daySaveT=null;saveState(daySaveChild,daySaveDate,collectDay());},450);}
+  function updateVacBanner(){
+    const b=$('vacBanner');const v=view==='day'?vacFor(cur,els.date.value):null;
+    if(!v){b.style.display='none';return;}
+    b.style.display='flex';
+    b.innerHTML=`<span class="vb-ic">🏖️</span><span>${escapeHtml(v.name||'Канікули')} · ${fd(v.from)} – ${fd(v.to)}<br><small>${v.clubsOff?'Уроки й гуртки на паузі':'Уроків немає, гуртки за розкладом'}</small></span>`;
+  }
 
   function updateNowline(){
     if(view!=='day'){nowline.style.display='none';return;}
@@ -564,35 +687,101 @@
   async function renderWeek(){
     const mon=mondayOf(els.date.value);const dates=[...Array(7)].map((_,i)=>fmt(addDays(mon,i)));const todayStr=fmt(new Date());
     const a=parse(dates[0]),b=parse(dates[6]);$('weekLabel').textContent=`${a.getDate()} ${MON[a.getMonth()]} – ${b.getDate()} ${MON[b.getMonth()]}`;
-    weekCache={};await Promise.all(dates.map(async d=>{weekCache[d]=await loadState(cur,d);}));
+    weekCache={};const wv={};dates.forEach(d=>wv[d]=vacFor(cur,d));await Promise.all(dates.map(async d=>{weekCache[d]=await loadState(cur,d);}));
     wgrid.innerHTML='';
     const corner=document.createElement('div');corner.className='whead corner';corner.innerHTML='<div class="wd">Час</div>';wgrid.appendChild(corner);
-    dates.forEach(d=>{const dt=parse(d);const h=document.createElement('div');h.className='whead'+(d===todayStr?' today':'');h.dataset.date=d;h.innerHTML=`<div class="wd">${WD_SHORT[dt.getDay()]}</div><div class="wdate">${String(dt.getDate()).padStart(2,'0')}.${String(dt.getMonth()+1).padStart(2,'0')}</div>`;h.title='Відкрити цей день';wgrid.appendChild(h);});
-    HOURS.forEach((hr,i)=>{const t=document.createElement('div');t.className='wtime';t.style.setProperty('--rc',RC[i%RC.length]);t.textContent=String(hr).padStart(2,'0')+':00';wgrid.appendChild(t);dates.forEach(d=>{const cell=document.createElement('div');cell.className='wcell'+(d===todayStr?' todaycol':'');const rd=(weekCache[d].rows&&weekCache[d].rows[hr])||{type:"Вільно",subject:""};cell.dataset.type=rd.type||"Вільно";cell.dataset.date=d;cell.dataset.hour=hr;const ta=document.createElement('textarea');ta.value=rd.subject||"";ta.placeholder="—";ta.dataset.min=44;cell.appendChild(ta);wgrid.appendChild(cell);});});
+    dates.forEach(d=>{const dt=parse(d);const h=document.createElement('div');h.className='whead'+(d===todayStr?' today':(wv[d]?' vac':''));h.dataset.date=d;h.innerHTML=`<div class="wd">${wv[d]?'🏖️ ':''}${WD_SHORT[dt.getDay()]}</div><div class="wdate">${String(dt.getDate()).padStart(2,'0')}.${String(dt.getMonth()+1).padStart(2,'0')}</div>`;h.title='Відкрити цей день';wgrid.appendChild(h);});
+    HOURS.forEach((hr,i)=>{const t=document.createElement('div');t.className='wtime';t.style.setProperty('--rc',RC[i%RC.length]);t.textContent=String(hr).padStart(2,'0')+':00';wgrid.appendChild(t);dates.forEach(d=>{const cell=document.createElement('div');cell.className='wcell'+(d===todayStr?' todaycol':(wv[d]?' vaccol':''));const rd=(weekCache[d].rows&&weekCache[d].rows[hr])||{type:"Вільно",subject:""};cell.dataset.type=rd.type||"Вільно";cell.dataset.date=d;cell.dataset.hour=hr;const ta=document.createElement('textarea');ta.value=rd.subject||"";ta.placeholder="—";ta.dataset.min=44;cell.appendChild(ta);wgrid.appendChild(cell);});});
     wgrid.querySelectorAll('textarea').forEach(autolen);
     applyChildLock();
   }
   let weekSaveT;
-  wgrid.addEventListener('input',e=>{const cell=e.target.closest('.wcell');if(!cell)return;const d=cell.dataset.date,hr=cell.dataset.hour;weekCache[d].rows[hr].subject=e.target.value;pendingWeekDate=d;autolen(e.target);clearTimeout(weekSaveT);weekSaveT=setTimeout(()=>{saveState(cur,d,weekCache[d]);pendingWeekDate=null;},450);});
-  wgrid.addEventListener('click',e=>{const head=e.target.closest('.whead');if(!head||!head.dataset.date)return;els.date.value=head.dataset.date;switchView('day');refreshDay();});
+  wgrid.addEventListener('input',e=>{const cell=e.target.closest('.wcell');if(!cell)return;const d=cell.dataset.date,hr=cell.dataset.hour;weekCache[d].rows[hr].subject=e.target.value;if(pendingWeekDate&&pendingWeekDate!==d)saveState(cur,pendingWeekDate,weekCache[pendingWeekDate]);pendingWeekDate=d;autolen(e.target);clearTimeout(weekSaveT);weekSaveT=setTimeout(()=>{saveState(cur,d,weekCache[d]);pendingWeekDate=null;},450);});
+  wgrid.addEventListener('click',e=>{const head=e.target.closest('.whead');if(!head||!head.dataset.date)return;flushSaves();els.date.value=head.dataset.date;switchView('day');});
+
+  // ---------- ШАБЛОН ----------
+  const tplRows=$('tplRows');let tplDay=new Date().getDay(),tplSaveT=null,tplPending=false,tplChild=null;
+  HOURS.forEach((h,i)=>{
+    const row=document.createElement('div');row.className='row tplrow';row.dataset.hour=h;row.style.setProperty('--rc','#9AA7B0');
+    row.innerHTML=`
+      <div class="cell-time"><span class="t1">${String(h).padStart(2,'0')}:00</span><span class="t2">${String(h+1).padStart(2,'0')}:00</span></div>
+      <div class="cell-type"><span class="ticon">${ICONS[i%ICONS.length]}</span><select class="type-sel" data-k="type">${TYPE_OPTS}</select></div>
+      <div class="cell-subj" data-label="Предмет / гурток"><textarea data-k="subject" placeholder="Предмет, гурток, кабінет"></textarea></div>`;
+    tplRows.appendChild(row);
+  });
+  tplRows.querySelectorAll('textarea').forEach(t=>t.dataset.min=52);
+  function renderTplDays(){
+    const tpl=loadTpl(cur),box=$('tplDays');box.innerHTML='';
+    TPL_ORDER.forEach(wd=>{const b=document.createElement('button');b.textContent=WD_SHORT[wd];b.dataset.wd=wd;b.title=WD_FULL[wd];const d=tpl.days&&tpl.days[wd];if(d&&Object.keys(d).length)b.classList.add('filled');if(wd===tplDay)b.classList.add('active');box.appendChild(b);});
+    $('tplDayTitle').textContent=WD_SHORT[tplDay];
+    $('tplCopyTo').innerHTML='<option value="wk">усі будні (Пн–Пт)</option>'+TPL_ORDER.filter(w=>w!==tplDay).map(w=>`<option value="${w}">${WD_FULL[w]}</option>`).join('');
+  }
+  function refreshTplFilled(){const tpl=loadTpl(cur);$('tplDays').querySelectorAll('button').forEach(b=>{const d=tpl.days&&tpl.days[b.dataset.wd];b.classList.toggle('filled',!!(d&&Object.keys(d).length));});}
+  function applyTpl(){
+    const tpl=loadTpl(cur),day=(tpl.days&&tpl.days[tplDay])||{};
+    tplRows.querySelectorAll('.row').forEach(r=>{const d=day[r.dataset.hour]||{};r.querySelector('[data-k=type]').value=d.type||'Вільно';paintRow(r);const ta=r.querySelector('[data-k=subject]');ta.value=d.subject||'';autolen(ta);});
+  }
+  function collectTplDay(){const o={};tplRows.querySelectorAll('.row').forEach(r=>{const type=r.querySelector('[data-k=type]').value,subject=r.querySelector('[data-k=subject]').value;if(type!=='Вільно'||subject.trim())o[r.dataset.hour]={type,subject};});return o;}
+  function saveTplDay(){clearTimeout(tplSaveT);if(!tplPending)return;tplPending=false;const child=tplChild||cur;const tpl=JSON.parse(JSON.stringify(loadTpl(child)));tpl.days=tpl.days||{};tpl.days[tplDay]=collectTplDay();saveTpl(child,tpl);if(child===cur)refreshTplFilled();}
+  function markTplDirty(){if(!tplPending)tplChild=cur;tplPending=true;clearTimeout(tplSaveT);tplSaveT=setTimeout(saveTplDay,600);}
+  tplRows.addEventListener('input',e=>{if(e.target.tagName==='TEXTAREA'){autolen(e.target);markTplDirty();}});
+  tplRows.addEventListener('change',e=>{if(e.target.classList.contains('type-sel')){paintRow(e.target.closest('.row'));markTplDirty();saveTplDay();}});
+  $('tplDays').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;saveTplDay();tplDay=+b.dataset.wd;renderTplDays();applyTpl();});
+  $('tplCopyBtn').addEventListener('click',()=>{
+    saveTplDay();const v=$('tplCopyTo').value;const targets=v==='wk'?[1,2,3,4,5].filter(w=>w!==tplDay):[+v];
+    const tpl=JSON.parse(JSON.stringify(loadTpl(cur)));tpl.days=tpl.days||{};const src=tpl.days[tplDay]||{};
+    if(targets.some(w=>tpl.days[w]&&Object.keys(tpl.days[w]).length)&&!confirm(`Замінити розклад: ${targets.map(w=>WD_FULL[w]).join(', ')}?`))return;
+    targets.forEach(w=>tpl.days[w]=JSON.parse(JSON.stringify(src)));saveTpl(cur,tpl);refreshTplFilled();
+  });
+
+  // ---------- КАНІКУЛИ ----------
+  function renderVac(){
+    const list=loadVac(cur).slice().sort((a,b)=>(a.from||'9999').localeCompare(b.from||'9999'));const box=$('vacList');box.innerHTML='';
+    if(!list.length){box.innerHTML='<div class="vac-empty">Періодів ще немає. Додайте осінні, зимові, весняні та літні канікули — у ці дні уроки з шаблону не з’являтимуться.</div>';return;}
+    list.forEach(v=>{const it=document.createElement('div');it.className='vacitem';it.dataset.id=v.id;
+      it.innerHTML=`<input class="vname" type="text" data-k="name" maxlength="40" placeholder="Назва, напр. Осінні канікули" value="${escapeHtml(v.name||'')}">
+        <label class="vd"><span>з</span><input type="date" data-k="from" value="${v.from||''}"></label>
+        <label class="vd"><span>по</span><input type="date" data-k="to" value="${v.to||''}"></label>
+        <label class="chk"><input type="checkbox" data-k="clubsOff" ${v.clubsOff?'checked':''}> гуртки теж на паузі</label>
+        <button class="del" title="Видалити">✕</button>`;
+      box.appendChild(it);});
+  }
+  $('vacList').addEventListener('change',e=>{
+    const it=e.target.closest('.vacitem');if(!it||!e.target.dataset.k)return;const list=loadVac(cur).map(x=>Object.assign({},x)),v=list.find(x=>x.id===it.dataset.id);if(!v)return;
+    const k=e.target.dataset.k;v[k]=e.target.type==='checkbox'?e.target.checked:e.target.value;
+    if(v.from&&v.to&&v.from>v.to){if(k==='from')v.to=v.from;else v.from=v.to;it.querySelector('[data-k=from]').value=v.from;it.querySelector('[data-k=to]').value=v.to;}
+    saveVac(cur,list);
+  });
+  $('vacList').addEventListener('click',e=>{if(!e.target.classList.contains('del'))return;const it=e.target.closest('.vacitem');const list=loadVac(cur);const v=list.find(x=>x.id===it.dataset.id);if(!confirm(`Видалити «${(v&&v.name)||'канікули'}»?`))return;saveVac(cur,list.filter(x=>x.id!==it.dataset.id));renderVac();});
+  $('vacAdd').addEventListener('click',()=>{const list=loadVac(cur).slice();const v={id:genId(),name:'',from:'',to:'',clubsOff:false};list.push(v);saveVac(cur,list);renderVac();const inp=$('vacList').querySelector(`.vacitem[data-id="${v.id}"] .vname`);if(inp)inp.focus();});
 
   // shared
   function updateDayName(){const d=els.date.value;els.dayName.textContent=d?WD_FULL[parse(d).getDay()]:'—';}
-  async function refreshDay(){applyDay(await loadState(cur,els.date.value));updateDayName();updateNowline();}
-  function switchView(v){view=v;$('tabDay').classList.toggle('active',v==='day');$('tabWeek').classList.toggle('active',v==='week');$('dayBoard').style.display=v==='day'?'block':'none';$('weekBoard').style.display=v==='week'?'block':'none';$('dayNav').style.display=v==='day'?'inline-flex':'none';$('weekNav').style.display=v==='week'?'inline-flex':'none';if(v==='week')renderWeek();else updateNowline();}
+  async function refreshDay(){applyDay(await loadState(cur,els.date.value));updateDayName();updateNowline();updateVacBanner();}
+  function switchView(v){
+    if(v==='tpl'&&mode==='child')v='day';
+    flushSaves();view=v;
+    $('tabDay').classList.toggle('active',v==='day');$('tabWeek').classList.toggle('active',v==='week');$('tabTpl').classList.toggle('active',v==='tpl');
+    $('dayBoard').style.display=v==='day'?'block':'none';$('weekBoard').style.display=v==='week'?'block':'none';$('tplBoard').style.display=v==='tpl'?'block':'none';
+    $('dayNav').style.display=v==='day'?'inline-flex':'none';$('weekNav').style.display=v==='week'?'inline-flex':'none';
+    $('panels').style.display=v==='tpl'?'none':'';
+    rerender();
+  }
 
-  document.addEventListener('input',e=>{if(e.target.matches('.row textarea, .panel textarea'))scheduleDaySave();});
-  document.addEventListener('change',e=>{if(e.target.classList.contains('type-sel')){paintRow(e.target.closest('.row'));scheduleDaySave();}});
-  document.querySelectorAll('.panel textarea').forEach(t=>{t.dataset.min=130;t.addEventListener('input',()=>autolen(t));});
-  els.date.addEventListener('change',()=>{if(view==='day')refreshDay();else{updateDayName();renderWeek();}});
+  document.addEventListener('input',e=>{if(e.target.matches('#dayBoard .row textarea, .panels textarea')){scheduleDaySave();const r=e.target.closest('#dayBoard .row');if(r)markTpl(r);}});
+  document.addEventListener('change',e=>{if(e.target.classList.contains('type-sel')&&e.target.closest('#dayBoard')){const r=e.target.closest('.row');paintRow(r);markTpl(r);scheduleDaySave();}});
+  document.querySelectorAll('.panels textarea').forEach(t=>{t.dataset.min=130;t.addEventListener('input',()=>autolen(t));});
+  els.date.addEventListener('change',async()=>{await flushSaves();if(!els.date.value)return;if(view==='day')refreshDay();else if(view==='week'){updateDayName();renderWeek();}});
   $('tabDay').addEventListener('click',()=>switchView('day'));
   $('tabWeek').addEventListener('click',()=>switchView('week'));
-  $('prevWeek').addEventListener('click',()=>{els.date.value=fmt(addDays(mondayOf(els.date.value),-7));updateDayName();renderWeek();});
-  $('nextWeek').addEventListener('click',()=>{els.date.value=fmt(addDays(mondayOf(els.date.value),7));updateDayName();renderWeek();});
+  $('tabTpl').addEventListener('click',()=>switchView('tpl'));
+  $('prevWeek').addEventListener('click',async()=>{await flushSaves();els.date.value=fmt(addDays(mondayOf(els.date.value),-7));updateDayName();renderWeek();});
+  $('nextWeek').addEventListener('click',async()=>{await flushSaves();els.date.value=fmt(addDays(mondayOf(els.date.value),7));updateDayName();renderWeek();});
   async function goDay(delta){await flushSaves();els.date.value=fmt(addDays(parse(els.date.value),delta));await refreshDay();}
   $('prevDay').addEventListener('click',()=>goDay(-1));
   $('nextDay').addEventListener('click',()=>goDay(1));
-  $('todayBtn').addEventListener('click',()=>{els.date.value=fmt(new Date());updateDayName();view==='day'?refreshDay():renderWeek();});
+  $('todayBtn').addEventListener('click',async()=>{await flushSaves();els.date.value=fmt(new Date());updateDayName();if(view!=='tpl')rerender();});
+  window.addEventListener('pagehide',()=>{flushSaves();});
   $('printBtn').addEventListener('click',()=>window.print());
 
   // Друк/PDF: показуємо повний текст замість textarea, щоб нічого не обрізалось
@@ -705,13 +894,13 @@
   function enterParent(){
     mode='parent';document.body.classList.remove('childmode');
     A.screen.style.display='none';A.app.style.display='block';
-    renderPills();updateAccountControls();refreshDay();
+    renderPills();updateAccountControls();rerender();
   }
   function enterChild(id){
     mode='child';cur=id;lsSet(PFX+'lock',{childId:id});
     document.body.classList.add('childmode');
     A.screen.style.display='none';A.app.style.display='block';
-    updateAccountControls();refreshDay();
+    updateAccountControls();if(view==='tpl')switchView('day');else rerender();
   }
   function leaveChild(){lsDel(PFX+'lock');showLocked();}
 
@@ -778,10 +967,13 @@
     try{
       const batch=db.batch();let n=0;
       lsKeys(PFX+'sch:').forEach(k=>{const p=k.split(':');const childId=p[2],date=p[3],data=lsGet(k);if(childId&&date&&data){batch.set(schCol().doc(childId+'_'+date),Object.assign({childId,date},data));n++;}});
+      const lt={},lv={};o.list.forEach(k=>{const t=lsGet(PFX+'tpl:'+k.id),v=lsGet(PFX+'vac:'+k.id);if(t)lt[k.id]=t;if(v)lv[k.id]=v;});
       await userDoc().set({kids:o.list,current:o.current||o.list[0].id},{merge:true});
+      for(const id in lt){tpls[id]=lt[id];saveChildField('tpls',id,lt[id]);}
+      for(const id in lv){vacs[id]=lv[id];saveChildField('vacs',id,lv[id]);}
       await batch.commit();
       localStorage.setItem(PFX+'migrated:'+uid,'1');
-      kids=o.list;cur=o.current||o.list[0].id;renderPills();await refreshDay();
+      kids=o.list;cur=o.current||o.list[0].id;renderPills();await rerender();
       $('migrateBtn').style.display='none';
       alert('Перенесено записів: '+n+'.');
     }catch(e){console.error(e);alert('Не вдалося перенести дані: '+(e.message||e));}
