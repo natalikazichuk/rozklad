@@ -156,8 +156,26 @@
   .pk-all input{width:18px;height:18px;accent-color:var(--purple);flex:none;margin:0}
   .pk-actions{display:flex;justify-content:space-between;gap:8px}
   .pk-actions .btn{padding:9px 16px;font-size:14px;border-radius:999px}
-  .tpl-time{display:inline-flex}
-  .tpl-time .btn{padding:9px 14px;font-size:13px;background:#fff;color:var(--blue-d)}
+  .tpl-top .spacer{flex:1}
+  .tpl-top .btn{padding:10px 18px;font-size:14px}
+  .btn.tpl-edit{background:linear-gradient(180deg,#FFA24E,#F5731E)}
+  .btn.tpl-save{background:linear-gradient(180deg,#7ED957,#43B257)}
+  .btn.tpl-time{background:#fff;color:var(--blue-d)}
+  .btn.tpl-cancel{padding:10px 16px;border-radius:999px}
+  .tpl-seg button{padding:8px 16px}
+  .tpl-status{font-weight:800;font-size:13px;color:var(--ink-soft);margin:-4px 4px 12px;display:flex;align-items:center;gap:8px}
+  .tpl-status.edit{color:var(--orange-d)}
+  .tpl-status.dirty::after{content:"● є незбережені зміни";color:#E0412E}
+  #tplBoard.locked .tplrow .tm,#tplBoard.locked .tplrow textarea{cursor:default}
+  #tplBoard.locked .tplrow .cell-type select:disabled{-webkit-appearance:none;appearance:none;background-image:none;color:var(--ink);opacity:1}
+  #tplBoard.locked .tplrow .cell-subj::after{display:none}
+  #tplBoard.editing .tplrow{box-shadow:0 0 0 2px #FFD9B8,var(--shadow-sm)}
+  #tplWeek{display:none}
+  #tplWeek .whead.sel{background:linear-gradient(180deg,#FFA24E,#F5731E)}
+  .wsubj{padding:2px 8px 8px;font-size:13px;font-weight:700;color:var(--ink);line-height:1.3;white-space:pre-wrap;word-break:break-word}
+  .wempty{padding:8px;color:#C9D4DC;font-weight:700}
+  #tplWeek .wcell{cursor:pointer;min-height:48px}
+  #tplWeek .wcell:hover{filter:brightness(.97)}
   .wcell{flex-direction:column}
   .wcell.tinted{background:color-mix(in srgb,var(--free) 14%,#fff)}
   .wmeta{font-size:11px;font-weight:800;color:var(--ink-soft);padding:5px 8px 0;display:flex;gap:5px;align-items:center;white-space:nowrap}
@@ -357,10 +375,6 @@
   .tpl-days button.filled::after{content:"";position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--green)}
   .tpl-days button.active{background:linear-gradient(180deg,#B57BFF,#8B5CF6);color:#fff;box-shadow:0 5px 12px -5px rgba(139,92,246,.8)}
   .tpl-days button.active.filled::after{background:#fff}
-  .tpl-copy{display:inline-flex;flex-wrap:wrap;gap:8px;align-items:center;background:#fff;border-radius:999px;padding:5px 5px 5px 14px;box-shadow:var(--shadow-sm);font-weight:800;font-size:13px;color:var(--ink-soft)}
-  .tpl-copy b{color:var(--ink)}
-  .tpl-copy select{font:inherit;font-weight:800;font-size:13px;border:2px solid #E5EDF4;border-radius:999px;padding:6px 10px;background:#F5F9FD;color:var(--ink);outline:none}
-  .tpl-copy .btn{padding:7px 14px;font-size:13px}
   .row-head.tplhead,.row.tplrow{grid-template-columns:108px 180px 1fr}
   .vacpanel{margin-top:22px}
   .vacpanel h2{background:linear-gradient(180deg,#FFC94D,#F5A300)}
@@ -380,7 +394,8 @@
     .seg button{padding:8px 14px}
     .row.tplrow{grid-template-columns:1fr}
     .row.tpl .cell-time::after{position:static;margin-left:auto;font-size:11px}
-    .tpl-days,.tpl-copy{border-radius:18px}
+    .tpl-days{border-radius:18px}
+    .tpl-top .spacer{display:none}
     .vacitem{grid-template-columns:1fr 1fr}
     .vacitem .vname{grid-column:1/-1}
     .vacitem .del{justify-self:end}
@@ -532,11 +547,17 @@
   <div class="board" id="tplBoard">
     <div class="tpl-intro">🔁 <b>Шаблон тижня</b> — заповніть один раз уроки й гуртки на кожен день тижня, і вони самі з’являться в усіх тижнях. Зміни на конкретну дату (заміна, скасований урок) робіть у вкладці «День» — шаблон від цього не зміниться.</div>
     <div class="tpl-top">
+      <div class="seg tpl-seg"><button id="tplModeDay" class="active">📅 День</button><button id="tplModeWeek">🗓️ Тиждень</button></div>
       <div class="tpl-days" id="tplDays"></div>
-      <span class="tpl-copy">⧉ Копіювати <b id="tplDayTitle">—</b> на <select id="tplCopyTo"></select><button class="btn clear" id="tplCopyBtn">Копіювати</button></span>
-      <span class="tpl-time"><button class="btn" id="tplTimeAll" title="Скопіювати час початку й кінця з цього дня на всі інші дні">⏰ Цей час — на всі дні</button></span>
+      <span class="spacer"></span>
+      <button class="btn tpl-time" id="tplTimeAll" title="Скопіювати час початку й кінця з цього дня на всі інші дні">⏰ Час — на всі дні</button>
+      <button class="btn ghost tpl-cancel" id="tplCancelBtn">Скасувати</button>
+      <button class="btn tpl-edit" id="tplEditBtn">✏️ Змінити</button>
+      <button class="btn tpl-save" id="tplSaveBtn">💾 Зберегти</button>
     </div>
-    <div class="row-head tplhead"><div>Час</div><div>Тип</div><div>Предмет / гурток</div></div>
+    <div class="tpl-status" id="tplStatus"></div>
+    <div id="tplWeek"><div class="wscroll"><div class="wgrid" id="tplWgrid"></div></div></div>
+    <div class="row-head tplhead" id="tplHead"><div>Час</div><div>Тип</div><div>Предмет / гурток</div></div>
     <div id="tplRows"></div>
     <div class="panel vacpanel">
       <h2>🏖️ Канікули</h2>
@@ -676,12 +697,11 @@
   async function flushSaves(){
     if(daySaveT){clearTimeout(daySaveT);daySaveT=null;saveState(daySaveChild,daySaveDate,collectDay());}
     if(pendingWeekDate){clearTimeout(weekSaveT);saveState(cur,pendingWeekDate,weekCache[pendingWeekDate]);pendingWeekDate=null;}
-    saveTplDay();
   }
-  async function rerender(){if(view==='day')await refreshDay();else if(view==='week')await renderWeek();else{renderTplDays();applyTpl();renderVac();}updateVacBanner();}
-  async function selectChild(id){if(id===cur)return;await flushSaves();cur=id;await saveKids();renderPills();await rerender();}
-  async function addChild(){if(kids.length>=MAX_KIDS)return;await flushSaves();const k={id:genId(),name:''};kids.push(k);cur=k.id;await saveKids();renderPills();startEdit($('pills').querySelector('.pill[data-id="'+k.id+'"] .pname'));await rerender();}
-  async function removeChild(id){if(kids.length<=1){alert('Має лишитися хоча б одна дитина.');return;}const k=kids.find(x=>x.id===id);if(!confirm(`Видалити «${k.name}» разом з її розкладом?`))return;await flushSaves();try{const q=await schCol().where('childId','==',id).get();const b=db.batch();q.forEach(dd=>b.delete(dd.ref));await b.commit();}catch(e){console.error(e);}delete tpls[id];delete vacs[id];delete styles[id];try{const del=firebase.firestore.FieldValue.delete();await userDoc().update(new firebase.firestore.FieldPath('tpls',id),del,new firebase.firestore.FieldPath('vacs',id),del,new firebase.firestore.FieldPath('styles',id),del);}catch(e){console.error(e);}kids=kids.filter(x=>x.id!==id);if(cur===id)cur=kids[0].id;saveKids();renderPills();await rerender();}
+  async function rerender(){if(view==='day')await refreshDay();else if(view==='week')await renderWeek();else renderTplAll();updateVacBanner();}
+  async function selectChild(id){if(id===cur)return;tplLeave();await flushSaves();cur=id;await saveKids();renderPills();await rerender();}
+  async function addChild(){if(kids.length>=MAX_KIDS)return;tplLeave();await flushSaves();const k={id:genId(),name:''};kids.push(k);cur=k.id;await saveKids();renderPills();startEdit($('pills').querySelector('.pill[data-id="'+k.id+'"] .pname'));await rerender();}
+  async function removeChild(id){if(kids.length<=1){alert('Має лишитися хоча б одна дитина.');return;}const k=kids.find(x=>x.id===id);if(!confirm(`Видалити «${k.name}» разом з її розкладом?`))return;tplLeave();await flushSaves();try{const q=await schCol().where('childId','==',id).get();const b=db.batch();q.forEach(dd=>b.delete(dd.ref));await b.commit();}catch(e){console.error(e);}delete tpls[id];delete vacs[id];delete styles[id];try{const del=firebase.firestore.FieldValue.delete();await userDoc().update(new firebase.firestore.FieldPath('tpls',id),del,new firebase.firestore.FieldPath('vacs',id),del,new firebase.firestore.FieldPath('styles',id),del);}catch(e){console.error(e);}kids=kids.filter(x=>x.id!==id);if(cur===id)cur=kids[0].id;saveKids();renderPills();await rerender();}
   async function renameChild(id,name){const k=kids.find(x=>x.id===id);if(!k)return;name=(name||'').trim().slice(0,24);if(!name)name=(k.name||'').trim()||('Дитина '+(kids.indexOf(k)+1));k.name=name;await saveKids();}
   $('pills').addEventListener('click',e=>{const pill=e.target.closest('.pill');if(!pill)return;const id=pill.dataset.id;if(e.target.classList.contains('pin')){setChildPin(id);return;}if(e.target.classList.contains('x')){removeChild(id);return;}if(e.target.classList.contains('pname')&&e.target.isContentEditable)return;selectChild(id);});
   function startEdit(s){if(!s)return;s.contentEditable=true;s.focus();const r=document.createRange();r.selectNodeContents(s);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);}
@@ -786,7 +806,8 @@
   wgrid.addEventListener('click',e=>{const head=e.target.closest('.whead');if(!head||!head.dataset.date)return;flushSaves();els.date.value=head.dataset.date;switchView('day');});
 
   // ---------- ШАБЛОН ----------
-  const tplRows=$('tplRows');let tplDay=new Date().getDay(),tplSaveT=null,tplPending=false,tplChild=null;
+  // Перегляд → «Змінити» → правки в чернетці → «Зберегти» (або «Скасувати»)
+  const tplRows=$('tplRows');let tplDay=new Date().getDay(),tplEdit=false,tplDraft=null,tplDirty=false,tplMode='day';
   HOURS.forEach((h,i)=>{
     const row=document.createElement('div');row.className='row tplrow';row.dataset.hour=h;row.style.setProperty('--rc','#9AA7B0');
     row.innerHTML=`
@@ -796,36 +817,76 @@
     tplRows.appendChild(row);
   });
   tplRows.querySelectorAll('textarea').forEach(t=>t.dataset.min=52);
+  const clone=o=>JSON.parse(JSON.stringify(o));
+  function tplSrc(){return tplEdit&&tplDraft?tplDraft:loadTpl(cur);}
+  const tplHasAny=t=>Object.values((t&&t.days)||{}).some(d=>d&&Object.keys(d).length);
   function renderTplDays(){
-    const tpl=loadTpl(cur),box=$('tplDays');box.innerHTML='';
-    TPL_ORDER.forEach(wd=>{const b=document.createElement('button');b.textContent=WD_SHORT[wd];b.dataset.wd=wd;b.title=WD_FULL[wd];const d=tpl.days&&tpl.days[wd];if(d&&Object.keys(d).length)b.classList.add('filled');if(wd===tplDay)b.classList.add('active');box.appendChild(b);});
-    $('tplDayTitle').textContent=WD_SHORT[tplDay];
-    $('tplCopyTo').innerHTML='<option value="wk">усі будні (Пн–Пт)</option>'+TPL_ORDER.filter(w=>w!==tplDay).map(w=>`<option value="${w}">${WD_FULL[w]}</option>`).join('');
+    const tpl=tplSrc(),box=$('tplDays');box.innerHTML='';
+    TPL_ORDER.forEach(wd=>{const b=document.createElement('button');b.textContent=WD_SHORT[wd];b.dataset.wd=wd;b.title=WD_FULL[wd];const d=tpl.days&&tpl.days[wd];if(d&&Object.keys(d).length)b.classList.add('filled');if(wd===tplDay&&tplMode==='day')b.classList.add('active');box.appendChild(b);});
   }
-  function refreshTplFilled(){const tpl=loadTpl(cur);$('tplDays').querySelectorAll('button').forEach(b=>{const d=tpl.days&&tpl.days[b.dataset.wd];b.classList.toggle('filled',!!(d&&Object.keys(d).length));});}
   function applyTpl(){
-    const tpl=loadTpl(cur),day=(tpl.days&&tpl.days[tplDay])||{};
+    const day=(tplSrc().days||{})[tplDay]||{};
     tplRows.querySelectorAll('.row').forEach(r=>{writeRow(r,day[r.dataset.hour]||{});autolen(r.querySelector('[data-k=subject]'));});
+    applyTplLock();
   }
+  function applyTplLock(){
+    const lock=!tplEdit;
+    tplRows.querySelectorAll('.row').forEach(r=>{r.querySelectorAll('.tm,textarea').forEach(t=>t.readOnly=lock);r.querySelector('.type-sel').disabled=lock;r.querySelector('.ticon').disabled=lock;});
+    $('tplBoard').classList.toggle('locked',lock);$('tplBoard').classList.toggle('editing',!lock);
+  }
+  function updateTplBar(){
+    $('tplEditBtn').style.display=tplEdit?'none':'';
+    $('tplSaveBtn').style.display=tplEdit?'':'none';
+    $('tplCancelBtn').style.display=tplEdit?'':'none';
+    $('tplTimeAll').style.display=tplEdit&&tplMode==='day'?'':'none';
+    const s=$('tplStatus');s.className='tpl-status'+(tplEdit?' edit':'')+(tplEdit&&tplDirty?' dirty':'');
+    s.textContent=tplEdit?'✏️ Редагування: змініть потрібні дні, потім натисніть «Зберегти».':(tplHasAny(loadTpl(cur))?'✅ Шаблон збережено. Щоб щось поправити — «Змінити».':'Шаблон порожній — натисніть «Змінити» і заповніть розклад.');
+    $('tplModeDay').classList.toggle('active',tplMode==='day');$('tplModeWeek').classList.toggle('active',tplMode==='week');
+    $('tplRows').style.display=tplMode==='day'?'':'none';$('tplHead').style.display=tplMode==='day'?'':'none';$('tplWeek').style.display=tplMode==='week'?'block':'none';
+  }
+  function renderTplWeek(){
+    const g=$('tplWgrid'),tpl=tplSrc();g.innerHTML='';
+    const c=document.createElement('div');c.className='whead corner';c.innerHTML='<div class="wd">№</div>';g.appendChild(c);
+    TPL_ORDER.forEach(wd=>{const hd=document.createElement('div');hd.className='whead'+(wd===tplDay?' sel':'');hd.dataset.wd=wd;hd.innerHTML=`<div class="wd">${WD_SHORT[wd]}</div><div class="wdate">${WD_FULL[wd]}</div>`;hd.title='Відкрити цей день';g.appendChild(hd);});
+    HOURS.forEach((hr,i)=>{const t=document.createElement('div');t.className='wtime';t.style.setProperty('--rc',RC[i%RC.length]);t.textContent=String(i+1);g.appendChild(t);
+      TPL_ORDER.forEach(wd=>{const d=((tpl.days||{})[wd]||{})[hr]||{};const rd={type:d.type||'Вільно',subject:d.subject||'',start:d.start||defStart(hr),end:d.end||defEnd(hr),icon:d.icon||'',color:d.color||''};
+        const cell=document.createElement('div');cell.className='wcell';cell.dataset.type=rd.type;cell.dataset.wd=wd;cell.title='Відкрити цей день';
+        const st=styleFor(cur,rd);if(st.color){cell.style.setProperty('--free',st.color);cell.classList.add('tinted');}
+        if(rd.type!=='Вільно'||rd.subject){cell.innerHTML=`<div class="wmeta"><span>${escapeHtml(st.icon)}</span>${escapeHtml(rd.start)}–${escapeHtml(rd.end)}</div><div class="wsubj">${escapeHtml(rd.subject||rd.type)}</div>`;}
+        else cell.innerHTML='<div class="wempty">—</div>';
+        g.appendChild(cell);});});
+  }
+  function renderTplAll(){
+    if(!tplEdit&&!tplHasAny(loadTpl(cur))){tplDraft=clone(loadTpl(cur));tplDraft.days=tplDraft.days||{};tplEdit=true;tplDirty=false;}
+    renderTplDays();applyTpl();if(tplMode==='week')renderTplWeek();renderVac();updateTplBar();
+  }
+  function collectIntoDraft(){if(tplEdit&&tplDraft&&tplMode==='day'){tplDraft.days=tplDraft.days||{};tplDraft.days[tplDay]=collectTplDay();}}
   function collectTplDay(){const o={};tplRows.querySelectorAll('.row').forEach(r=>{const h=r.dataset.hour,d=readRow(r),x={};if(d.type!=='Вільно')x.type=d.type;if(d.subject.trim())x.subject=d.subject;if(d.start&&d.start!==defStart(h))x.start=d.start;if(d.end&&d.end!==defEnd(h))x.end=d.end;if(d.icon)x.icon=d.icon;if(d.color)x.color=d.color;if(Object.keys(x).length)o[h]=Object.assign({type:d.type,subject:d.subject},x);});return o;}
-  function saveTplDay(){clearTimeout(tplSaveT);if(!tplPending)return;tplPending=false;const child=tplChild||cur;const tpl=JSON.parse(JSON.stringify(loadTpl(child)));tpl.days=tpl.days||{};tpl.days[tplDay]=collectTplDay();saveTpl(child,tpl);if(child===cur)refreshTplFilled();}
-  function markTplDirty(){if(!tplPending)tplChild=cur;tplPending=true;clearTimeout(tplSaveT);tplSaveT=setTimeout(saveTplDay,600);}
+  function markTplDirty(){if(!tplEdit)return;collectIntoDraft();tplDirty=true;const cls=$('tplStatus').classList;cls.add('dirty');
+    const d=(tplDraft.days||{})[tplDay];const b=$('tplDays').querySelector(`button[data-wd="${tplDay}"]`);if(b)b.classList.toggle('filled',!!(d&&Object.keys(d).length));}
+  function tplStartEdit(){tplDraft=clone(loadTpl(cur));tplDraft.days=tplDraft.days||{};tplEdit=true;tplDirty=false;renderTplAll();}
+  function tplSave(){collectIntoDraft();Object.keys(tplDraft.days).forEach(w=>{if(!Object.keys(tplDraft.days[w]||{}).length)delete tplDraft.days[w];});saveTpl(cur,tplDraft);tplEdit=false;tplDraft=null;tplDirty=false;renderTplAll();}
+  function tplCancel(){tplEdit=false;tplDraft=null;tplDirty=false;}
+  // вихід із шаблону/зміна дитини під час редагування
+  function tplLeave(){if(!tplEdit)return;if(tplDirty&&confirm('Зберегти зміни в шаблоні?'))tplSave();else tplCancel();}
+  $('tplEditBtn').addEventListener('click',tplStartEdit);
+  $('tplSaveBtn').addEventListener('click',tplSave);
+  $('tplCancelBtn').addEventListener('click',()=>{if(tplDirty&&!confirm('Скасувати всі незбережені зміни?'))return;tplCancel();renderTplAll();});
+  function tplOpenDay(wd){collectIntoDraft();tplDay=wd;tplMode='day';renderTplDays();applyTpl();updateTplBar();}
+  $('tplDays').addEventListener('click',e=>{const b=e.target.closest('button');if(b)tplOpenDay(+b.dataset.wd);});
+  $('tplModeDay').addEventListener('click',()=>tplOpenDay(tplDay));
+  $('tplModeWeek').addEventListener('click',()=>{collectIntoDraft();tplMode='week';renderTplDays();renderTplWeek();updateTplBar();});
+  $('tplWgrid').addEventListener('click',e=>{const x=e.target.closest('[data-wd]');if(x)tplOpenDay(+x.dataset.wd);});
   tplRows.addEventListener('input',e=>{if(e.target.tagName==='TEXTAREA'){autolen(e.target);paintRow(e.target.closest('.row'));markTplDirty();}});
-  tplRows.addEventListener('change',e=>{const r=e.target.closest('.row');if(!r)return;if(e.target.classList.contains('tm')){if(e.target.dataset.k==='start')fixEnd(r);markTplDirty();saveTplDay();}else if(e.target.classList.contains('type-sel')){paintRow(r);markTplDirty();saveTplDay();}});
+  tplRows.addEventListener('change',e=>{const r=e.target.closest('.row');if(!r)return;if(e.target.classList.contains('tm')){if(e.target.dataset.k==='start')fixEnd(r);markTplDirty();}else if(e.target.classList.contains('type-sel')){paintRow(r);markTplDirty();}});
   $('tplTimeAll').addEventListener('click',()=>{
-    saveTplDay();if(!confirm(`Скопіювати час уроків з дня «${WD_FULL[tplDay]}» на всі інші дні? Предмети не зміняться.`))return;
-    const tpl=JSON.parse(JSON.stringify(loadTpl(cur)));tpl.days=tpl.days||{};const src=tpl.days[tplDay]||{};
-    TPL_ORDER.filter(w=>w!==tplDay).forEach(w=>{const day=tpl.days[w]=tpl.days[w]||{};HOURS.forEach(h=>{const s=src[h]||{};const t=day[h]||{type:'Вільно',subject:''};
+    if(!tplEdit)return;collectIntoDraft();
+    if(!confirm(`Скопіювати час уроків з дня «${WD_FULL[tplDay]}» на всі інші дні? Предмети не зміняться.`))return;
+    const src=tplDraft.days[tplDay]||{};
+    TPL_ORDER.filter(w=>w!==tplDay).forEach(w=>{const day=tplDraft.days[w]=tplDraft.days[w]||{};HOURS.forEach(h=>{const s=src[h]||{};const t=day[h]||{type:'Вільно',subject:''};
       if(s.start)t.start=s.start;else delete t.start;if(s.end)t.end=s.end;else delete t.end;
       const empty=t.type==='Вільно'&&!(t.subject||'').trim()&&!t.start&&!t.end&&!t.icon&&!t.color;if(empty)delete day[h];else day[h]=t;});});
-    saveTpl(cur,tpl);refreshTplFilled();alert('Час скопійовано на всі дні ✓');
-  });
-  $('tplDays').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;saveTplDay();tplDay=+b.dataset.wd;renderTplDays();applyTpl();});
-  $('tplCopyBtn').addEventListener('click',()=>{
-    saveTplDay();const v=$('tplCopyTo').value;const targets=v==='wk'?[1,2,3,4,5].filter(w=>w!==tplDay):[+v];
-    const tpl=JSON.parse(JSON.stringify(loadTpl(cur)));tpl.days=tpl.days||{};const src=tpl.days[tplDay]||{};
-    if(targets.some(w=>tpl.days[w]&&Object.keys(tpl.days[w]).length)&&!confirm(`Замінити розклад: ${targets.map(w=>WD_FULL[w]).join(', ')}?`))return;
-    targets.forEach(w=>tpl.days[w]=JSON.parse(JSON.stringify(src)));saveTpl(cur,tpl);refreshTplFilled();
+    tplDirty=true;renderTplDays();updateTplBar();
   });
 
   // ---------- КАНІКУЛИ ----------
@@ -853,6 +914,7 @@
   function updateDayName(){const d=els.date.value;els.dayName.textContent=d?WD_FULL[parse(d).getDay()]:'—';}
   async function refreshDay(){applyDay(await loadState(cur,els.date.value));updateDayName();updateNowline();updateVacBanner();}
   function switchView(v){
+    if(view==='tpl'&&v!=='tpl')tplLeave();
     if(v==='tpl'&&mode==='child')v='day';
     flushSaves();view=v;
     $('tabDay').classList.toggle('active',v==='day');$('tabWeek').classList.toggle('active',v==='week');$('tabTpl').classList.toggle('active',v==='tpl');
@@ -900,7 +962,7 @@
       styles[cur]=m;saveChildField('styles',cur,m);r.dataset.icon='';r.dataset.color='';flashSaved();
     }else{r.dataset.icon=pk.icon||'';r.dataset.color=pk.color||'';}
     repaintAll();
-    if(r.closest('#dayBoard')){markTpl(r);scheduleDaySave();}else{markTplDirty();saveTplDay();}
+    if(r.closest('#dayBoard')){markTpl(r);scheduleDaySave();}else markTplDirty();
   }
   document.addEventListener('click',e=>{const b=e.target.closest('button.ticon');if(b&&!b.disabled){e.stopPropagation();if(pk.row&&pk.row===b.closest('.row')){closePicker(false);return;}if(pk.row)closePicker(false);openPicker(b);}});
   $('pkEmojis').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;pk.icon=b.dataset.e;$('pkCustom').value='';pkMark();pkPreview();});
@@ -924,6 +986,7 @@
   $('nextDay').addEventListener('click',()=>goDay(1));
   $('todayBtn').addEventListener('click',async()=>{await flushSaves();els.date.value=fmt(new Date());updateDayName();if(view!=='tpl')rerender();});
   window.addEventListener('pagehide',()=>{flushSaves();});
+  window.addEventListener('beforeunload',e=>{if(tplEdit&&tplDirty){e.preventDefault();e.returnValue='';}});
   $('printBtn').addEventListener('click',()=>window.print());
 
   // Друк/PDF: показуємо повний текст замість textarea, щоб нічого не обрізалось
@@ -1092,7 +1155,7 @@
     $('pInPass').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();verifyParent();}});
     $('togglePInPass').onclick=()=>{const i=$('pInPass'),s=i.type==='password';i.type=s?'text':'password';$('togglePInPass').textContent=s?'🙈':'👁️';};
     $('signOutLink').onclick=async e=>{e.preventDefault();lsDel(PFX+'lock');if(auth)await auth.signOut();};
-    $('logoutBtn').onclick=async()=>{await flushSaves();if(mode==='child'){leaveChild();return;}lsDel(PFX+'lock');if(auth)await auth.signOut();};
+    $('logoutBtn').onclick=async()=>{tplLeave();await flushSaves();if(mode==='child'){leaveChild();return;}lsDel(PFX+'lock');if(auth)await auth.signOut();};
     $('childLoginBtn').onclick=openChildLogin;
     $('clCancel').onclick=closeChildLogin;
     $('clGo').onclick=verifyChild;
