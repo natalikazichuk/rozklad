@@ -111,10 +111,10 @@
 
   /* DAY VIEW as cards */
   .board{position:relative}
-  .row-head{display:grid;grid-template-columns:96px 128px 1.1fr 1.4fr;background:linear-gradient(180deg,#9A6BFF,#7C3AED);color:#fff;border-radius:18px;font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;box-shadow:var(--shadow);overflow:hidden}
+  .row-head{display:grid;grid-template-columns:108px 140px 1.1fr 1.4fr;background:linear-gradient(180deg,#9A6BFF,#7C3AED);color:#fff;border-radius:18px;font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;box-shadow:var(--shadow);overflow:hidden}
   .row-head>div{padding:14px 16px;text-align:center}
   .row-head>div:first-child{text-align:center}
-  .row{display:grid;grid-template-columns:96px 128px 1.1fr 1.4fr;align-items:stretch;background:var(--card);border-radius:18px;box-shadow:var(--shadow-sm);margin-top:10px;overflow:hidden;position:relative}
+  .row{display:grid;grid-template-columns:108px 140px 1.1fr 1.4fr;align-items:stretch;background:var(--card);border-radius:18px;box-shadow:var(--shadow-sm);margin-top:10px;overflow:hidden;position:relative}
   .row>div{position:relative;display:flex;border-right:1px solid var(--line)}
   .row>div:last-child{border-right:0}
   .cell-time{flex-direction:column;align-items:center;justify-content:center;padding:12px 8px;background:linear-gradient(180deg,#FFFDF6,#FFF6E6)}
@@ -122,6 +122,47 @@
   .cell-time .t2{font-weight:800;font-size:12px;color:var(--ink-soft)}
   .cell-type{align-items:center;gap:9px;padding:8px 10px;border-left:7px solid var(--rc,#3B9EF5)}
   .ticon{font-size:22px}
+  button.ticon{flex:none;width:42px;height:42px;border:0;border-radius:13px;background:#fff;box-shadow:inset 0 0 0 2px #E8EEF4;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:22px;line-height:1;padding:0;transition:transform .1s,box-shadow .15s}
+  button.ticon:hover{transform:scale(1.08);box-shadow:inset 0 0 0 2px var(--rc,#3B9EF5)}
+  button.ticon:disabled{cursor:default;transform:none;box-shadow:none;background:transparent}
+  .cell-time{gap:2px}
+  .cell-time .tm{border:0;background:transparent;font:inherit;text-align:center;width:100%;min-width:0;padding:1px 0;outline:none;cursor:text;border-radius:8px}
+  .cell-time .tm:hover,.cell-time .tm:focus{background:rgba(255,255,255,.85);box-shadow:inset 0 0 0 2px #E1E9F1}
+  .cell-time .tm::-webkit-calendar-picker-indicator{display:none}
+  .cell-time .tm.t1{font-family:var(--disp);font-weight:800;font-size:19px;color:var(--rc,#3B9EF5)}
+  .cell-time .tm.t2{font-weight:800;font-size:13px;color:var(--ink-soft)}
+  .cell-time .tdash{display:none;font-weight:800;color:var(--ink-soft)}
+  .cell-time .tm[readonly]{cursor:default;background:transparent;box-shadow:none}
+  .row.tpl .cell-time{padding-bottom:16px}
+  .row.tinted{background:color-mix(in srgb,var(--rc) 13%,#fff)}
+  .row.tinted .cell-time{background:color-mix(in srgb,var(--rc) 22%,#fff)}
+  .row.tinted .cell-hw textarea{background:rgba(255,255,255,.75)}
+  /* picker */
+  .picker{position:fixed;z-index:60;width:320px;max-width:calc(100vw - 24px);background:#fff;border-radius:18px;box-shadow:0 18px 40px -14px rgba(30,50,80,.5),0 0 0 1px #EEF3F7;padding:14px}
+  .pk-title{font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:2px 2px 8px}
+  .pk-emojis{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-height:176px;overflow-y:auto;margin-bottom:8px}
+  .pk-emojis button{border:0;background:#F5F9FD;border-radius:10px;font-size:20px;height:34px;cursor:pointer;padding:0}
+  .pk-emojis button:hover{background:#E8F1FB}
+  .pk-emojis button.sel{box-shadow:inset 0 0 0 2px var(--purple);background:#F2ECFF}
+  .pk-custom{width:100%;font:inherit;font-weight:700;font-size:15px;border:2px solid #E7EFF8;background:#F6FAFF;border-radius:12px;padding:8px 10px;outline:none;margin-bottom:12px}
+  .pk-custom:focus{border-color:var(--purple);background:#fff}
+  .pk-colors{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+  .pk-colors button,.pk-colors label{width:30px;height:30px;border-radius:50%;border:0;cursor:pointer;padding:0;position:relative;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--ink-soft)}
+  .pk-colors button.auto{background:#F1F4F7;box-shadow:inset 0 0 0 2px #DCE4EB}
+  .pk-colors button.sel,.pk-colors label.sel{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--ink)}
+  .pk-colors label{background:conic-gradient(#FF5A47,#FFB020,#57C368,#22B8CF,#8B5CF6,#FF5DA2,#FF5A47)}
+  .pk-colors label input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+  .pk-all{display:flex;gap:8px;align-items:flex-start;font-weight:700;font-size:13px;color:var(--ink);margin-bottom:12px;cursor:pointer;line-height:1.35}
+  .pk-all input{width:18px;height:18px;accent-color:var(--purple);flex:none;margin:0}
+  .pk-actions{display:flex;justify-content:space-between;gap:8px}
+  .pk-actions .btn{padding:9px 16px;font-size:14px;border-radius:999px}
+  .tpl-time{display:inline-flex}
+  .tpl-time .btn{padding:9px 14px;font-size:13px;background:#fff;color:var(--blue-d)}
+  .wcell{flex-direction:column}
+  .wcell.tinted{background:color-mix(in srgb,var(--free) 14%,#fff)}
+  .wmeta{font-size:11px;font-weight:800;color:var(--ink-soft);padding:5px 8px 0;display:flex;gap:5px;align-items:center;white-space:nowrap}
+  .wmeta span{font-size:14px}
+  .wcell .wmeta+textarea{padding-top:2px;min-height:30px}
   select.type-sel{flex:1;min-width:0;border:0;outline:none;cursor:pointer;font:inherit;font-size:15px;font-weight:800;background:transparent;color:var(--ink);padding:6px 20px 6px 4px;border-radius:9px;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236E8390' stroke-width='3.5'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 4px center}
   .cell-subj{padding:14px 16px}
   .cell-subj textarea{width:100%;border:0;outline:none;resize:none;background:transparent;font:inherit;font-size:16px;font-weight:700;color:var(--ink);line-height:1.35;min-height:52px;overflow:hidden}
@@ -183,7 +224,12 @@
     .row{grid-template-columns:1fr;margin-top:12px}
     .row>div{border-right:0;border-bottom:1px solid var(--line)}
     .row>div:last-child{border-bottom:0}
-    .cell-time{flex-direction:row;justify-content:flex-start;gap:10px;padding:10px 16px}
+    .cell-time{flex-direction:row;justify-content:flex-start;align-items:center;gap:6px;padding:10px 16px}
+    .cell-time .tm{width:66px;flex:none}
+    .cell-time .tm.t1,.cell-time .tm.t2{font-family:var(--disp);font-size:19px;font-weight:800}
+    .cell-time .tm.t2{color:var(--ink-soft)}
+    .cell-time .tdash{display:inline}
+    .row.tpl .cell-time{padding-bottom:10px}
     .cell-type{border-left:8px solid var(--rc,#3B9EF5)}
     .cell-subj::after{display:none}
     .cell-subj,.cell-hw{padding-top:26px}
@@ -315,7 +361,7 @@
   .tpl-copy b{color:var(--ink)}
   .tpl-copy select{font:inherit;font-weight:800;font-size:13px;border:2px solid #E5EDF4;border-radius:999px;padding:6px 10px;background:#F5F9FD;color:var(--ink);outline:none}
   .tpl-copy .btn{padding:7px 14px;font-size:13px}
-  .row-head.tplhead,.row.tplrow{grid-template-columns:96px 170px 1fr}
+  .row-head.tplhead,.row.tplrow{grid-template-columns:108px 180px 1fr}
   .vacpanel{margin-top:22px}
   .vacpanel h2{background:linear-gradient(180deg,#FFC94D,#F5A300)}
   .vac-empty{padding:16px 18px;font-weight:700;color:var(--ink-soft);font-size:14px}
@@ -488,6 +534,7 @@
     <div class="tpl-top">
       <div class="tpl-days" id="tplDays"></div>
       <span class="tpl-copy">⧉ Копіювати <b id="tplDayTitle">—</b> на <select id="tplCopyTo"></select><button class="btn clear" id="tplCopyBtn">Копіювати</button></span>
+      <span class="tpl-time"><button class="btn" id="tplTimeAll" title="Скопіювати час початку й кінця з цього дня на всі інші дні">⏰ Цей час — на всі дні</button></span>
     </div>
     <div class="row-head tplhead"><div>Час</div><div>Тип</div><div>Предмет / гурток</div></div>
     <div id="tplRows"></div>
@@ -507,6 +554,16 @@
     <div class="panel notes"><h2>📝 Нотатки</h2><textarea id="notes" placeholder="Що не забути, контрольні, речі до школи…"></textarea></div>
   </div>
 
+  <div id="picker" class="picker" style="display:none" role="dialog" aria-label="Емодзі та колір">
+    <div class="pk-title">Емодзі</div>
+    <div class="pk-emojis" id="pkEmojis"></div>
+    <input id="pkCustom" class="pk-custom" maxlength="8" placeholder="або вставте свій емодзі 😀">
+    <div class="pk-title">Колір рядка</div>
+    <div class="pk-colors" id="pkColors"></div>
+    <label class="pk-all" id="pkAllWrap"><input type="checkbox" id="pkAll" checked><span id="pkAllTxt"></span></label>
+    <div class="pk-actions"><button class="btn ghost" id="pkReset">Скинути</button><button class="btn clear" id="pkDone">Готово</button></div>
+  </div>
+
   </div><!-- /appScreen -->
 </div>
 
@@ -523,6 +580,17 @@
   const TYPE_OPTS=TYPES.map(t=>`<option value="${t}">${t}</option>`).join('');
   const SCHOOL_TYPES=["Урок","Перерва","Обід"];
   const TPL_ORDER=[1,2,3,4,5,6,0];
+  const TYPE_ICON={"Урок":"📘","Додаткове":"✏️","Гурток":"🎨","Бокс":"🥊","Музика":"🎵","Обід":"🍽️","Перерва":"☕","Вільно":"🌤️"};
+  const EMOJIS=['📘','📗','📕','📙','📓','📖','📚','✏️','🖊️','📝','📐','📏','➗','➕','🔢','🧮','🔤','🅰️','🌍','🗺️','🏛️','📜','🧪','🔬','⚗️','🧬','🌱','🦋','🪐','💻','🖥️','🤖','⚙️','🛠️','🎨','🖌️','🎭','📷','🎵','🎹','🎸','🎻','🥁','🎤','🏀','⚽','🏐','🎾','🤸','🏊','🥊','🥋','⛸️','♟️','🧩','🩺','❤️','🧘','🇺🇦','🇬🇧','🇩🇪','🇵🇱','🇫🇷','🇪🇸','🍽️','🍎','🥪','☕','🚌','🏠','⭐','🌤️'];
+  const COLORS=['#3B9EF5','#5B7CFA','#8B5CF6','#E056C9','#FF5DA2','#FF5A47','#FF8A3C','#FFB020','#8BC34A','#57C368','#2CC5B8','#22B8CF','#9AA7B0'];
+  const RFIELDS=['type','subject','start','end','icon','color'];
+  const pad2=n=>String(n).padStart(2,'0');
+  const defStart=h=>pad2(h)+':00', defEnd=h=>pad2(+h+1)+':00';
+  const toMin=s=>{const m=/^(\d{1,2}):(\d{2})/.exec(s||'');return m?(+m[1])*60+(+m[2]):NaN;};
+  const fromMin=m=>pad2(Math.floor(m/60)%24)+':'+pad2(m%60);
+  let styles={};   // {childId:{"математика":{icon,color}}} — стиль для всіх уроків з цією назвою
+  const skey=s=>(s||'').trim().toLowerCase();
+  function styleFor(child,row){const st=(styles[child]||{})[skey(row.subject)]||{};const color=row.color||st.color||'';return{icon:row.icon||st.icon||TYPE_ICON[row.type]||'📘',color,tint:!!color};}
 
   const $=id=>document.getElementById(id);
   const els={date:$('date'),extra:$('extra'),clubs:$('clubs'),notes:$('notes'),dayName:$('dayName'),saveNote:$('saveNote')};
@@ -557,15 +625,15 @@
     const tpl=loadTpl(child),day=(tpl.days&&tpl.days[parse(d).getDay()])||{},vac=vacFor(child,d),rows={};
     HOURS.forEach(h=>{let r=day[h]||{};const type=r.type||"Вільно";
       if(vac&&(vac.clubsOff||SCHOOL_TYPES.includes(type)))r={};
-      rows[h]={type:r.type||"Вільно",subject:r.subject||""};});
+      rows[h]={type:r.type||"Вільно",subject:r.subject||"",start:r.start||defStart(h),end:r.end||defEnd(h),icon:r.icon||"",color:r.color||""};});
     return rows;
   }
   // день = шаблон + зміни саме на цю дату
   function mergeDay(child,d,s){
     s=s||{};const base=baseRows(child,d),legacy=s.v!==2,rows={};
-    HOURS.forEach(h=>{const b=base[h],o=(s.rows&&s.rows[h])||{};const r={type:b.type,subject:b.subject,hw:o.hw||""};
+    HOURS.forEach(h=>{const b=base[h],o=(s.rows&&s.rows[h])||{};const r=Object.assign({},b,{hw:o.hw||""});
       if(legacy){if((o.type&&o.type!=="Вільно")||o.subject){r.type=o.type||"Вільно";r.subject=o.subject||"";}}
-      else{if('type' in o)r.type=o.type;if('subject' in o)r.subject=o.subject;}
+      else RFIELDS.forEach(k=>{if(k in o)r[k]=o[k];});
       rows[h]=r;});
     return{extra:s.extra||"",clubs:s.clubs||"",notes:s.notes||"",rows,base};
   }
@@ -578,8 +646,7 @@
     if(!uid||!db)return;
     const base=baseRows(child,d),rows={};
     HOURS.forEach(h=>{const r=(s.rows&&s.rows[h])||{},b=base[h],o={};
-      if((r.type||"Вільно")!==b.type)o.type=r.type||"Вільно";
-      if((r.subject||"")!==b.subject)o.subject=r.subject||"";
+      RFIELDS.forEach(k=>{const v=r[k]==null?(k==='type'?"Вільно":(k==='start'||k==='end')?b[k]:""):r[k];if(v!==b[k])o[k]=v;});
       if(r.hw)o.hw=r.hw;
       if(Object.keys(o).length)rows[h]=o;});
     const out={v:2,childId:child,date:d,extra:s.extra||"",clubs:s.clubs||"",notes:s.notes||"",rows};
@@ -594,8 +661,8 @@
 
   // children
   async function loadKids(){
-    kids=[];cur=null;tpls={};vacs={};
-    try{const doc=await userDoc().get();if(doc.exists){const d=doc.data();kids=Array.isArray(d.kids)?d.kids:[];cur=d.current;tpls=d.tpls||{};vacs=d.vacs||{};}}catch(e){console.error(e);}
+    kids=[];cur=null;tpls={};vacs={};styles={};
+    try{const doc=await userDoc().get();if(doc.exists){const d=doc.data();kids=Array.isArray(d.kids)?d.kids:[];cur=d.current;tpls=d.tpls||{};vacs=d.vacs||{};styles=d.styles||{};}}catch(e){console.error(e);}
     if(!kids.length){kids=[{id:genId(),name:'Дитина 1'}];cur=kids[0].id;saveKids();}
     if(!kids.find(k=>k.id===cur))cur=kids[0].id;
   }
@@ -614,7 +681,7 @@
   async function rerender(){if(view==='day')await refreshDay();else if(view==='week')await renderWeek();else{renderTplDays();applyTpl();renderVac();}updateVacBanner();}
   async function selectChild(id){if(id===cur)return;await flushSaves();cur=id;await saveKids();renderPills();await rerender();}
   async function addChild(){if(kids.length>=MAX_KIDS)return;await flushSaves();const k={id:genId(),name:''};kids.push(k);cur=k.id;await saveKids();renderPills();startEdit($('pills').querySelector('.pill[data-id="'+k.id+'"] .pname'));await rerender();}
-  async function removeChild(id){if(kids.length<=1){alert('Має лишитися хоча б одна дитина.');return;}const k=kids.find(x=>x.id===id);if(!confirm(`Видалити «${k.name}» разом з її розкладом?`))return;await flushSaves();try{const q=await schCol().where('childId','==',id).get();const b=db.batch();q.forEach(dd=>b.delete(dd.ref));await b.commit();}catch(e){console.error(e);}delete tpls[id];delete vacs[id];try{const del=firebase.firestore.FieldValue.delete();await userDoc().update(new firebase.firestore.FieldPath('tpls',id),del,new firebase.firestore.FieldPath('vacs',id),del);}catch(e){console.error(e);}kids=kids.filter(x=>x.id!==id);if(cur===id)cur=kids[0].id;saveKids();renderPills();await rerender();}
+  async function removeChild(id){if(kids.length<=1){alert('Має лишитися хоча б одна дитина.');return;}const k=kids.find(x=>x.id===id);if(!confirm(`Видалити «${k.name}» разом з її розкладом?`))return;await flushSaves();try{const q=await schCol().where('childId','==',id).get();const b=db.batch();q.forEach(dd=>b.delete(dd.ref));await b.commit();}catch(e){console.error(e);}delete tpls[id];delete vacs[id];delete styles[id];try{const del=firebase.firestore.FieldValue.delete();await userDoc().update(new firebase.firestore.FieldPath('tpls',id),del,new firebase.firestore.FieldPath('vacs',id),del,new firebase.firestore.FieldPath('styles',id),del);}catch(e){console.error(e);}kids=kids.filter(x=>x.id!==id);if(cur===id)cur=kids[0].id;saveKids();renderPills();await rerender();}
   async function renameChild(id,name){const k=kids.find(x=>x.id===id);if(!k)return;name=(name||'').trim().slice(0,24);if(!name)name=(k.name||'').trim()||('Дитина '+(kids.indexOf(k)+1));k.name=name;await saveKids();}
   $('pills').addEventListener('click',e=>{const pill=e.target.closest('.pill');if(!pill)return;const id=pill.dataset.id;if(e.target.classList.contains('pin')){setChildPin(id);return;}if(e.target.classList.contains('x')){removeChild(id);return;}if(e.target.classList.contains('pname')&&e.target.isContentEditable)return;selectChild(id);});
   function startEdit(s){if(!s)return;s.contentEditable=true;s.focus();const r=document.createRange();r.selectNodeContents(s);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);}
@@ -629,21 +696,35 @@
     const row=document.createElement('div');row.className='row';row.dataset.hour=h;row.style.setProperty('--rc','#9AA7B0');
     const opts=TYPES.map(t=>`<option value="${t}">${t}</option>`).join('');
     row.innerHTML=`
-      <div class="cell-time"><span class="t1">${String(h).padStart(2,'0')}:00</span><span class="t2">${String(h+1).padStart(2,'0')}:00</span></div>
-      <div class="cell-type"><span class="ticon">${ICONS[i%ICONS.length]}</span><select class="type-sel" data-k="type">${opts}</select></div>
+      <div class="cell-time"><input type="text" class="tm t1" data-k="start" inputmode="numeric" maxlength="5" placeholder="08:00" autocomplete="off" aria-label="Початок"><span class="tdash">–</span><input type="text" class="tm t2" data-k="end" inputmode="numeric" maxlength="5" placeholder="09:00" autocomplete="off" aria-label="Кінець"></div>
+      <div class="cell-type"><button type="button" class="ticon" title="Обрати емодзі й колір">📘</button><select class="type-sel" data-k="type">${opts}</select></div>
       <div class="cell-subj" data-label="Предмет"><textarea data-k="subject" placeholder="Предмет / кабінет"></textarea></div>
       <div class="cell-hw" data-label="Дом. завдання"><span class="hwstar">⭐</span><textarea data-k="hw" placeholder="Що задано…"></textarea></div>`;
     dayBoard.insertBefore(row,nowline);
   });
   dayBoard.querySelectorAll('textarea').forEach(t=>t.dataset.min=52);
-  function paintRow(r){const t=r.querySelector('[data-k=type]').value;r.style.setProperty('--rc',TCOL[t]||'#9AA7B0');}
+  function readRow(r){return{type:r.querySelector('[data-k=type]').value,subject:r.querySelector('[data-k=subject]').value,start:r.querySelector('[data-k=start]').value,end:r.querySelector('[data-k=end]').value,icon:r.dataset.icon||'',color:r.dataset.color||''};}
+  function writeRow(r,d){const h=r.dataset.hour;r.querySelector('[data-k=type]').value=d.type||"Вільно";r.querySelector('[data-k=subject]').value=d.subject||"";r.querySelector('[data-k=start]').value=d.start||defStart(h);r.querySelector('[data-k=end]').value=d.end||defEnd(h);r.dataset.icon=d.icon||'';r.dataset.color=d.color||'';paintRow(r);}
+  function paintRow(r){const d=readRow(r),st=styleFor(cur,d);r.style.setProperty('--rc',st.color||TCOL[d.type]||'#9AA7B0');r.classList.toggle('tinted',st.tint);const b=r.querySelector('.ticon');if(b)b.textContent=st.icon;}
+  // «830», «8.30», «8:3» → «08:30»; некоректне — повертаємо попереднє значення
+  function normTime(v){v=(v||'').trim().replace(/[.,\s-]/g,':');let hh,mm;
+    if(/^\d{1,2}$/.test(v)){hh=+v;mm=0;}
+    else if(/^\d{3,4}$/.test(v)){hh=+v.slice(0,-2);mm=+v.slice(-2);}
+    else{const m=/^(\d{1,2}):(\d{1,2})$/.exec(v);if(!m)return null;hh=+m[1];mm=+m[2];}
+    if(hh>23||mm>59)return null;return pad2(hh)+':'+pad2(mm);}
+  document.addEventListener('focusin',e=>{if(e.target.classList&&e.target.classList.contains('tm'))e.target.dataset.prev=e.target.value;});
+  document.addEventListener('change',e=>{const t=e.target;if(!t.classList||!t.classList.contains('tm'))return;const n=normTime(t.value);if(n)t.value=n;else{t.value=t.dataset.prev||defStart(t.closest('.row').dataset.hour);}},true);
+  document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('tm')){e.preventDefault();e.target.blur();}});
+  function repaintAll(){document.querySelectorAll('#dayBoard .row, #tplRows .row').forEach(paintRow);}
+  // якщо кінець раніше за початок — ставимо урок 45 хв
+  function fixEnd(r){const s=toMin(r.querySelector('[data-k=start]').value),e=r.querySelector('[data-k=end]');if(!isNaN(s)&&!(toMin(e.value)>s))e.value=fromMin(s+45);}
 
   let curBase={};
   function markTpl(r){const b=curBase[r.dataset.hour];if(!b){r.classList.remove('tpl');return;}const t=r.querySelector('[data-k=type]').value,s=r.querySelector('[data-k=subject]').value;r.classList.toggle('tpl',b.type!=="Вільно"&&t===b.type&&s===b.subject);}
   function applyDay(state){
     curBase=state.base||{};
     els.extra.value=state.extra||"";els.clubs.value=state.clubs||"";els.notes.value=state.notes||"";
-    dayBoard.querySelectorAll('.row').forEach(r=>{const d=(state.rows&&state.rows[r.dataset.hour])||{type:"Вільно",subject:"",hw:""};const sel=r.querySelector('[data-k=type]');sel.value=d.type||"Вільно";paintRow(r);r.querySelector('[data-k=subject]').value=d.subject||"";r.querySelector('[data-k=hw]').value=d.hw||"";markTpl(r);});
+    dayBoard.querySelectorAll('.row').forEach(r=>{const d=(state.rows&&state.rows[r.dataset.hour])||{type:"Вільно",subject:"",hw:""};writeRow(r,d);r.querySelector('[data-k=hw]').value=d.hw||"";markTpl(r);});
     dayBoard.querySelectorAll('textarea').forEach(autolen);[els.extra,els.clubs,els.notes].forEach(autolen);
     applyChildLock();
   }
@@ -654,6 +735,8 @@
       const subj=r.querySelector('[data-k=subject]'), type=r.querySelector('[data-k=type]'), hw=r.querySelector('[data-k=hw]');
       if(subj)subj.readOnly=lock;
       if(type)type.disabled=lock;
+      r.querySelectorAll('.tm').forEach(t=>t.readOnly=lock);
+      const ic=r.querySelector('.ticon');if(ic)ic.disabled=lock;
       if(hw)hw.readOnly=false;
     });
     [els.extra,els.clubs,els.notes].forEach(t=>{if(t)t.readOnly=lock;});
@@ -661,7 +744,7 @@
     document.body.classList.toggle('childview',lock);
     const hint=$('childHint');if(hint)hint.style.display=lock?'flex':'none';
   }
-  function collectDay(){const rows={};dayBoard.querySelectorAll('.row').forEach(r=>{rows[r.dataset.hour]={type:r.querySelector('[data-k=type]').value,subject:r.querySelector('[data-k=subject]').value,hw:r.querySelector('[data-k=hw]').value};});return{extra:els.extra.value,clubs:els.clubs.value,notes:els.notes.value,rows};}
+  function collectDay(){const rows={};dayBoard.querySelectorAll('.row').forEach(r=>{rows[r.dataset.hour]=Object.assign(readRow(r),{hw:r.querySelector('[data-k=hw]').value});});return{extra:els.extra.value,clubs:els.clubs.value,notes:els.notes.value,rows};}
   let daySaveT=null,daySaveDate=null,daySaveChild=null;
   function scheduleDaySave(){if(!daySaveT){daySaveDate=els.date.value;daySaveChild=cur;}clearTimeout(daySaveT);daySaveT=setTimeout(()=>{daySaveT=null;saveState(daySaveChild,daySaveDate,collectDay());},450);}
   function updateVacBanner(){
@@ -674,11 +757,14 @@
   function updateNowline(){
     if(view!=='day'){nowline.style.display='none';return;}
     const today=new Date();if(els.date.value!==fmt(today)){nowline.style.display='none';return;}
-    const mins=today.getHours()*60+today.getMinutes(),start=480,end=1200;
-    if(mins<start||mins>end){nowline.style.display='none';return;}
-    const rows=[...dayBoard.querySelectorAll('.row')],first=rows[0],last=rows[rows.length-1];
-    const top0=first.offsetTop,bottom=last.offsetTop+last.offsetHeight;
-    nowline.style.top=(top0+(mins-start)/(end-start)*(bottom-top0))+'px';nowline.style.display='block';
+    const mins=today.getHours()*60+today.getMinutes();
+    const rows=[...dayBoard.querySelectorAll('.row')].map(r=>({r,s:toMin(r.querySelector('[data-k=start]').value),e:toMin(r.querySelector('[data-k=end]').value)})).filter(x=>!isNaN(x.s)&&x.e>x.s);
+    if(!rows.length||mins<Math.min(...rows.map(x=>x.s))||mins>Math.max(...rows.map(x=>x.e))){nowline.style.display='none';return;}
+    let top=null;const inRow=rows.find(x=>mins>=x.s&&mins<x.e);
+    if(inRow)top=inRow.r.offsetTop+(mins-inRow.s)/(inRow.e-inRow.s)*inRow.r.offsetHeight;
+    else{const next=rows.filter(x=>x.s>mins).sort((a,b)=>a.s-b.s)[0];top=next?next.r.offsetTop-5:null;}
+    if(top==null){nowline.style.display='none';return;}
+    nowline.style.top=top+'px';nowline.style.display='block';
     $('nowlabel').textContent=String(today.getHours()).padStart(2,'0')+':'+String(today.getMinutes()).padStart(2,'0');
   }
 
@@ -689,9 +775,9 @@
     const a=parse(dates[0]),b=parse(dates[6]);$('weekLabel').textContent=`${a.getDate()} ${MON[a.getMonth()]} – ${b.getDate()} ${MON[b.getMonth()]}`;
     weekCache={};const wv={};dates.forEach(d=>wv[d]=vacFor(cur,d));await Promise.all(dates.map(async d=>{weekCache[d]=await loadState(cur,d);}));
     wgrid.innerHTML='';
-    const corner=document.createElement('div');corner.className='whead corner';corner.innerHTML='<div class="wd">Час</div>';wgrid.appendChild(corner);
+    const corner=document.createElement('div');corner.className='whead corner';corner.innerHTML='<div class="wd">№</div>';wgrid.appendChild(corner);
     dates.forEach(d=>{const dt=parse(d);const h=document.createElement('div');h.className='whead'+(d===todayStr?' today':(wv[d]?' vac':''));h.dataset.date=d;h.innerHTML=`<div class="wd">${wv[d]?'🏖️ ':''}${WD_SHORT[dt.getDay()]}</div><div class="wdate">${String(dt.getDate()).padStart(2,'0')}.${String(dt.getMonth()+1).padStart(2,'0')}</div>`;h.title='Відкрити цей день';wgrid.appendChild(h);});
-    HOURS.forEach((hr,i)=>{const t=document.createElement('div');t.className='wtime';t.style.setProperty('--rc',RC[i%RC.length]);t.textContent=String(hr).padStart(2,'0')+':00';wgrid.appendChild(t);dates.forEach(d=>{const cell=document.createElement('div');cell.className='wcell'+(d===todayStr?' todaycol':(wv[d]?' vaccol':''));const rd=(weekCache[d].rows&&weekCache[d].rows[hr])||{type:"Вільно",subject:""};cell.dataset.type=rd.type||"Вільно";cell.dataset.date=d;cell.dataset.hour=hr;const ta=document.createElement('textarea');ta.value=rd.subject||"";ta.placeholder="—";ta.dataset.min=44;cell.appendChild(ta);wgrid.appendChild(cell);});});
+    HOURS.forEach((hr,i)=>{const t=document.createElement('div');t.className='wtime';t.style.setProperty('--rc',RC[i%RC.length]);t.textContent=String(i+1);wgrid.appendChild(t);dates.forEach(d=>{const cell=document.createElement('div');cell.className='wcell'+(d===todayStr?' todaycol':(wv[d]?' vaccol':''));const rd=(weekCache[d].rows&&weekCache[d].rows[hr])||{type:"Вільно",subject:""};cell.dataset.type=rd.type||"Вільно";cell.dataset.date=d;cell.dataset.hour=hr;const st=styleFor(cur,rd);if(st.color){cell.style.setProperty('--free',st.color);cell.classList.add('tinted');}if(rd.type!=="Вільно"||rd.subject){const m=document.createElement('div');m.className='wmeta';m.innerHTML=`<span>${escapeHtml(st.icon)}</span>${escapeHtml(rd.start||'')}–${escapeHtml(rd.end||'')}`;cell.appendChild(m);}const ta=document.createElement('textarea');ta.value=rd.subject||"";ta.placeholder="—";ta.dataset.min=44;cell.appendChild(ta);wgrid.appendChild(cell);});});
     wgrid.querySelectorAll('textarea').forEach(autolen);
     applyChildLock();
   }
@@ -704,8 +790,8 @@
   HOURS.forEach((h,i)=>{
     const row=document.createElement('div');row.className='row tplrow';row.dataset.hour=h;row.style.setProperty('--rc','#9AA7B0');
     row.innerHTML=`
-      <div class="cell-time"><span class="t1">${String(h).padStart(2,'0')}:00</span><span class="t2">${String(h+1).padStart(2,'0')}:00</span></div>
-      <div class="cell-type"><span class="ticon">${ICONS[i%ICONS.length]}</span><select class="type-sel" data-k="type">${TYPE_OPTS}</select></div>
+      <div class="cell-time"><input type="text" class="tm t1" data-k="start" inputmode="numeric" maxlength="5" placeholder="08:00" autocomplete="off" aria-label="Початок"><span class="tdash">–</span><input type="text" class="tm t2" data-k="end" inputmode="numeric" maxlength="5" placeholder="09:00" autocomplete="off" aria-label="Кінець"></div>
+      <div class="cell-type"><button type="button" class="ticon" title="Обрати емодзі й колір">📘</button><select class="type-sel" data-k="type">${TYPE_OPTS}</select></div>
       <div class="cell-subj" data-label="Предмет / гурток"><textarea data-k="subject" placeholder="Предмет, гурток, кабінет"></textarea></div>`;
     tplRows.appendChild(row);
   });
@@ -719,13 +805,21 @@
   function refreshTplFilled(){const tpl=loadTpl(cur);$('tplDays').querySelectorAll('button').forEach(b=>{const d=tpl.days&&tpl.days[b.dataset.wd];b.classList.toggle('filled',!!(d&&Object.keys(d).length));});}
   function applyTpl(){
     const tpl=loadTpl(cur),day=(tpl.days&&tpl.days[tplDay])||{};
-    tplRows.querySelectorAll('.row').forEach(r=>{const d=day[r.dataset.hour]||{};r.querySelector('[data-k=type]').value=d.type||'Вільно';paintRow(r);const ta=r.querySelector('[data-k=subject]');ta.value=d.subject||'';autolen(ta);});
+    tplRows.querySelectorAll('.row').forEach(r=>{writeRow(r,day[r.dataset.hour]||{});autolen(r.querySelector('[data-k=subject]'));});
   }
-  function collectTplDay(){const o={};tplRows.querySelectorAll('.row').forEach(r=>{const type=r.querySelector('[data-k=type]').value,subject=r.querySelector('[data-k=subject]').value;if(type!=='Вільно'||subject.trim())o[r.dataset.hour]={type,subject};});return o;}
+  function collectTplDay(){const o={};tplRows.querySelectorAll('.row').forEach(r=>{const h=r.dataset.hour,d=readRow(r),x={};if(d.type!=='Вільно')x.type=d.type;if(d.subject.trim())x.subject=d.subject;if(d.start&&d.start!==defStart(h))x.start=d.start;if(d.end&&d.end!==defEnd(h))x.end=d.end;if(d.icon)x.icon=d.icon;if(d.color)x.color=d.color;if(Object.keys(x).length)o[h]=Object.assign({type:d.type,subject:d.subject},x);});return o;}
   function saveTplDay(){clearTimeout(tplSaveT);if(!tplPending)return;tplPending=false;const child=tplChild||cur;const tpl=JSON.parse(JSON.stringify(loadTpl(child)));tpl.days=tpl.days||{};tpl.days[tplDay]=collectTplDay();saveTpl(child,tpl);if(child===cur)refreshTplFilled();}
   function markTplDirty(){if(!tplPending)tplChild=cur;tplPending=true;clearTimeout(tplSaveT);tplSaveT=setTimeout(saveTplDay,600);}
-  tplRows.addEventListener('input',e=>{if(e.target.tagName==='TEXTAREA'){autolen(e.target);markTplDirty();}});
-  tplRows.addEventListener('change',e=>{if(e.target.classList.contains('type-sel')){paintRow(e.target.closest('.row'));markTplDirty();saveTplDay();}});
+  tplRows.addEventListener('input',e=>{if(e.target.tagName==='TEXTAREA'){autolen(e.target);paintRow(e.target.closest('.row'));markTplDirty();}});
+  tplRows.addEventListener('change',e=>{const r=e.target.closest('.row');if(!r)return;if(e.target.classList.contains('tm')){if(e.target.dataset.k==='start')fixEnd(r);markTplDirty();saveTplDay();}else if(e.target.classList.contains('type-sel')){paintRow(r);markTplDirty();saveTplDay();}});
+  $('tplTimeAll').addEventListener('click',()=>{
+    saveTplDay();if(!confirm(`Скопіювати час уроків з дня «${WD_FULL[tplDay]}» на всі інші дні? Предмети не зміняться.`))return;
+    const tpl=JSON.parse(JSON.stringify(loadTpl(cur)));tpl.days=tpl.days||{};const src=tpl.days[tplDay]||{};
+    TPL_ORDER.filter(w=>w!==tplDay).forEach(w=>{const day=tpl.days[w]=tpl.days[w]||{};HOURS.forEach(h=>{const s=src[h]||{};const t=day[h]||{type:'Вільно',subject:''};
+      if(s.start)t.start=s.start;else delete t.start;if(s.end)t.end=s.end;else delete t.end;
+      const empty=t.type==='Вільно'&&!(t.subject||'').trim()&&!t.start&&!t.end&&!t.icon&&!t.color;if(empty)delete day[h];else day[h]=t;});});
+    saveTpl(cur,tpl);refreshTplFilled();alert('Час скопійовано на всі дні ✓');
+  });
   $('tplDays').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;saveTplDay();tplDay=+b.dataset.wd;renderTplDays();applyTpl();});
   $('tplCopyBtn').addEventListener('click',()=>{
     saveTplDay();const v=$('tplCopyTo').value;const targets=v==='wk'?[1,2,3,4,5].filter(w=>w!==tplDay):[+v];
@@ -768,8 +862,56 @@
     rerender();
   }
 
-  document.addEventListener('input',e=>{if(e.target.matches('#dayBoard .row textarea, .panels textarea')){scheduleDaySave();const r=e.target.closest('#dayBoard .row');if(r)markTpl(r);}});
-  document.addEventListener('change',e=>{if(e.target.classList.contains('type-sel')&&e.target.closest('#dayBoard')){const r=e.target.closest('.row');paintRow(r);markTpl(r);scheduleDaySave();}});
+  document.addEventListener('input',e=>{if(e.target.matches('#dayBoard .row textarea, .panels textarea')){scheduleDaySave();const r=e.target.closest('#dayBoard .row');if(r){markTpl(r);if(e.target.dataset.k==='subject')paintRow(r);}}});
+  document.addEventListener('change',e=>{if(!e.target.closest('#dayBoard'))return;const r=e.target.closest('.row');if(!r)return;
+    if(e.target.classList.contains('type-sel')){paintRow(r);markTpl(r);scheduleDaySave();}
+    else if(e.target.classList.contains('tm')){if(e.target.dataset.k==='start')fixEnd(r);scheduleDaySave();updateNowline();}});
+
+  // ---------- вибір емодзі та кольору ----------
+  const pk={row:null,icon:'',color:''};
+  $('pkEmojis').innerHTML=EMOJIS.map(e=>`<button type="button" data-e="${e}">${e}</button>`).join('');
+  function pkRenderColors(){
+    $('pkColors').innerHTML=`<button type="button" class="auto${pk.color?'':' sel'}" data-c="" title="Колір за типом">⊘</button>`+COLORS.map(c=>`<button type="button" data-c="${c}" style="background:${c}" class="${pk.color.toLowerCase()===c.toLowerCase()?'sel':''}" title="${c}"></button>`).join('')+
+      `<label class="${pk.color&&!COLORS.some(c=>c.toLowerCase()===pk.color.toLowerCase())?'sel':''}" title="Свій колір"><input type="color" id="pkPick" value="${pk.color||'#3B9EF5'}"></label>`;
+  }
+  function pkMark(){$('pkEmojis').querySelectorAll('button').forEach(b=>b.classList.toggle('sel',b.dataset.e===pk.icon));}
+  function pkPreview(){const r=pk.row;if(!r)return;const d=readRow(r);d.icon=pk.icon;d.color=pk.color;const st=styleFor(cur,Object.assign(d,{icon:pk.icon||'',color:pk.color||''}));r.style.setProperty('--rc',(pk.color||st.color)||TCOL[d.type]||'#9AA7B0');r.classList.toggle('tinted',!!(pk.color||st.color));r.querySelector('.ticon').textContent=pk.icon||st.icon;}
+  function openPicker(btn){
+    const r=btn.closest('.row');pk.row=r;const d=readRow(r);const st=(styles[cur]||{})[skey(d.subject)]||{};
+    pk.icon=d.icon||st.icon||'';pk.color=d.color||st.color||'';
+    const subj=d.subject.trim();
+    $('pkAllWrap').style.display=subj?'flex':'none';$('pkAll').checked=!!subj&&!d.icon&&!d.color;
+    $('pkAllTxt').textContent=subj?`Для всіх рядків «${subj}» (в усі дні й у шаблоні)`:'';
+    $('pkCustom').value=pk.icon&&!EMOJIS.includes(pk.icon)?pk.icon:'';
+    pkMark();pkRenderColors();
+    const p=$('picker');p.style.display='block';
+    const rc=btn.getBoundingClientRect(),w=p.offsetWidth,hh=p.offsetHeight;
+    let left=Math.min(Math.max(12,rc.left),window.innerWidth-w-12),top=rc.bottom+8;
+    if(top+hh>window.innerHeight-12)top=Math.max(12,rc.top-hh-8);
+    p.style.left=left+'px';p.style.top=top+'px';
+  }
+  function closePicker(apply){
+    const r=pk.row;$('picker').style.display='none';pk.row=null;if(!r)return;
+    if(!apply){paintRow(r);return;}
+    const subj=r.querySelector('[data-k=subject]').value.trim();
+    if(subj&&$('pkAll').checked){
+      const m=Object.assign({},styles[cur]||{}),k=skey(subj);
+      if(pk.icon||pk.color)m[k]={icon:pk.icon||'',color:pk.color||''};else delete m[k];
+      styles[cur]=m;saveChildField('styles',cur,m);r.dataset.icon='';r.dataset.color='';flashSaved();
+    }else{r.dataset.icon=pk.icon||'';r.dataset.color=pk.color||'';}
+    repaintAll();
+    if(r.closest('#dayBoard')){markTpl(r);scheduleDaySave();}else{markTplDirty();saveTplDay();}
+  }
+  document.addEventListener('click',e=>{const b=e.target.closest('button.ticon');if(b&&!b.disabled){e.stopPropagation();if(pk.row&&pk.row===b.closest('.row')){closePicker(false);return;}if(pk.row)closePicker(false);openPicker(b);}});
+  $('pkEmojis').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;pk.icon=b.dataset.e;$('pkCustom').value='';pkMark();pkPreview();});
+  $('pkCustom').addEventListener('input',e=>{pk.icon=e.target.value.trim();pkMark();pkPreview();});
+  $('pkColors').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;pk.color=b.dataset.c;pkRenderColors();pkPreview();});
+  $('pkColors').addEventListener('input',e=>{if(e.target.id!=='pkPick')return;pk.color=e.target.value;pkPreview();});
+  $('pkColors').addEventListener('change',e=>{if(e.target.id==='pkPick')pkRenderColors();});
+  $('pkReset').addEventListener('click',()=>{pk.icon='';pk.color='';closePicker(true);});
+  $('pkDone').addEventListener('click',()=>closePicker(true));
+  document.addEventListener('mousedown',e=>{if(pk.row&&!e.target.closest('#picker')&&!e.target.closest('button.ticon'))closePicker(true);});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pk.row)closePicker(false);});
   document.querySelectorAll('.panels textarea').forEach(t=>{t.dataset.min=130;t.addEventListener('input',()=>autolen(t));});
   els.date.addEventListener('change',async()=>{await flushSaves();if(!els.date.value)return;if(view==='day')refreshDay();else if(view==='week'){updateDayName();renderWeek();}});
   $('tabDay').addEventListener('click',()=>switchView('day'));
