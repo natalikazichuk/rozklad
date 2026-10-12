@@ -112,6 +112,18 @@
   .week-nav,.day-nav{display:inline-flex;align-items:center;gap:8px}
   .week-nav .wlabel{font-weight:800;font-size:15px;color:var(--blue-d);min-width:160px;text-align:center;background:#fff;border-radius:999px;padding:8px 14px;box-shadow:var(--shadow-sm)}
   .day-nav .day-name{min-width:130px}
+  .tpl-nav{position:relative;display:inline-flex}
+  .tpl-trigger{display:inline-flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:17px;color:#fff;background:linear-gradient(180deg,#B57BFF,#8B5CF6);border:0;padding:8px 18px;border-radius:999px;box-shadow:0 5px 12px -6px rgba(139,92,246,.8);cursor:pointer;min-width:190px;justify-content:space-between}
+  .tpl-trigger .kt-arrow{font-size:13px;transition:transform .15s}
+  .tpl-trigger[aria-expanded=true] .kt-arrow{transform:rotate(180deg)}
+  .tpl-menu{position:absolute;top:calc(100% + 8px);left:0;z-index:40;min-width:220px;background:var(--card);border-radius:18px;padding:8px;box-shadow:0 14px 34px -10px rgba(40,70,110,.5);display:flex;flex-direction:column;gap:4px}
+  .tpl-menu[hidden]{display:none}
+  .tpl-menu .tm-week,.tpl-menu .tpl-days button{font:inherit;font-weight:800;font-size:15px;border:0;background:transparent;color:var(--ink);padding:9px 14px;border-radius:12px;cursor:pointer;text-align:left;position:relative;width:100%}
+  .tpl-menu .tm-week:hover,.tpl-menu .tpl-days button:hover{background:#F3EDFF}
+  .tpl-menu .tm-week{border-bottom:1px solid var(--line);border-radius:12px 12px 0 0;margin-bottom:4px}
+  .tpl-menu .tm-week.active,.tpl-menu .tpl-days button.active{background:linear-gradient(180deg,#B57BFF,#8B5CF6);color:#fff}
+  .tpl-menu .tpl-days{display:flex;flex-direction:column;gap:2px;background:transparent;box-shadow:none;padding:0;border-radius:0}
+  .tpl-menu .tpl-days button.filled::after{top:50%;right:14px;transform:translateY(-50%)}
   .spacer{flex:1}
   .btn{font:inherit;font-weight:800;font-size:15px;cursor:pointer;border:0;color:#fff;padding:11px 20px;border-radius:999px;display:inline-flex;align-items:center;gap:8px;transition:transform .08s, filter .15s;box-shadow:var(--shadow-sm)}
   .btn:hover{filter:brightness(1.05)}
@@ -177,7 +189,6 @@
   .btn.tpl-save{background:linear-gradient(180deg,#7ED957,#43B257)}
   .btn.tpl-time{background:#fff;color:var(--blue-d)}
   .btn.tpl-cancel{padding:10px 16px;border-radius:999px}
-  .tpl-seg button{padding:8px 16px}
   .tpl-status{font-weight:800;font-size:13px;color:var(--ink-soft);margin:-4px 4px 12px;display:flex;align-items:center;gap:8px}
   .tpl-status.edit{color:var(--orange-d)}
   .tpl-status.dirty::after{content:"● є незбережені зміни";color:#E0412E}
@@ -396,6 +407,27 @@
   .tpl-days button.active.filled::after{background:#fff}
   .row-head.tplhead,.row.tplrow{grid-template-columns:108px 180px 1fr}
   .vacpanel{margin-top:22px}
+  .clubpanel{margin-top:22px}
+  .clubpanel h2{background:linear-gradient(180deg,#FF7DB5,#F0468F)}
+  .btn.clubadd{background:linear-gradient(180deg,#FF7DB5,#F0468F)}
+  .clubitem{display:grid;grid-template-columns:auto 1.4fr auto auto auto;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .clubitem input,.clubitem select{font:inherit;font-weight:700;font-size:15px;border:2px solid #E7EFF8;background:#F6FAFF;border-radius:12px;padding:8px 10px;width:100%;color:var(--ink);min-width:0;outline:none}
+  .clubitem input:focus,.clubitem select:focus{border-color:var(--pink);background:#fff}
+  .clubitem .cicon{width:58px;padding:6px;font-size:20px;text-align:center;-webkit-appearance:none;appearance:none;cursor:pointer}
+  .clubitem .cdays{display:inline-flex;flex-wrap:wrap;gap:4px}
+  .clubitem .cdays button{font:inherit;font-weight:800;font-size:13px;border:2px solid #E7EFF8;background:#F6FAFF;color:var(--ink-soft);border-radius:999px;padding:5px 9px;cursor:pointer}
+  .clubitem .cdays button.on{background:linear-gradient(180deg,#FF7DB5,#F0468F);border-color:transparent;color:#fff}
+  .clubitem .ctime{display:flex;align-items:center;gap:6px;font-weight:800;color:var(--ink-soft);font-size:13px}
+  .clubitem .ctime input{width:auto;padding:7px 8px}
+  .clubitem .del{border:0;background:#FFE3DF;color:#E0412E;width:34px;height:34px;border-radius:50%;cursor:pointer;font-weight:900;font-size:14px}
+  .clubitem .cwarn{grid-column:1/-1;font-size:12px;font-weight:800;color:#E0412E;margin-top:-4px}
+  /* гуртки в розкладі дня й тижня */
+  .row.clubrow{background:linear-gradient(90deg,color-mix(in srgb,var(--rc) 16%,#fff),#fff 70%);box-shadow:0 0 0 2.5px color-mix(in srgb,var(--rc) 55%,#fff),var(--shadow-sm)}
+  .row.clubrow .cell-time{background:color-mix(in srgb,var(--rc) 24%,#fff)}
+  .row.clubrow .cell-subj textarea{font-weight:800;color:color-mix(in srgb,var(--rc) 70%,#2A3A46)}
+  .row.clubrow .cell-type::after{content:"🏆 гурток";position:absolute;bottom:6px;left:10px;font-size:9.5px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--rc);border-radius:999px;padding:1px 8px}
+  .row.clubrow.tpl .cell-time::after{content:"🏆 з шаблону"}
+  .wcell.clubcell{background:color-mix(in srgb,var(--free) 14%,#fff);font-weight:800}
   .vacpanel h2{background:linear-gradient(180deg,#FFC94D,#F5A300)}
   .vac-empty{padding:16px 18px;font-weight:700;color:var(--ink-soft);font-size:14px}
   .vacitem{display:grid;grid-template-columns:1.3fr 1fr 1fr auto auto;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
@@ -418,9 +450,13 @@
     .vacitem{grid-template-columns:1fr 1fr}
     .vacitem .vname{grid-column:1/-1}
     .vacitem .del{justify-self:end}
+    .clubitem{grid-template-columns:auto 1fr auto}
+    .clubitem .cdays,.clubitem .ctime{grid-column:1/-1}
+    .clubitem .del{grid-row:1;grid-column:3}
+    .row.clubrow .cell-type::after{position:static;margin-left:auto}
   }
   @media print{
-    .tpl-top,.vac-foot,.vacitem .del,.row.tpl .cell-time::after{display:none !important}
+    .tpl-top,.vac-foot,.vacitem .del,.clubitem .del,.clubitem .cwarn,.row.tpl .cell-time::after{display:none !important}
     .vacbanner{box-shadow:none}
   }
 </style>
@@ -550,6 +586,13 @@
       <span class="wlabel" id="weekLabel">—</span>
       <button class="btn mini" id="nextWeek">▶</button>
     </span>
+    <span class="tpl-nav" id="tplNav" style="display:none">
+      <button type="button" class="tpl-trigger" id="tplTrigger" aria-haspopup="true" aria-expanded="false" aria-controls="tplMenu"><span id="tplTrigLabel">🗓️ Весь тиждень</span><span class="kt-arrow">▾</span></button>
+      <div class="tpl-menu" id="tplMenu" hidden>
+        <button type="button" class="tm-week" id="tplModeWeek">🗓️ Весь тиждень</button>
+        <div class="tpl-days" id="tplDays"></div>
+      </div>
+    </span>
     <span class="save-note" id="saveNote">збережено ✓</span>
     <span class="spacer"></span>
     <button class="btn print" id="printBtn">🖨️ Друк / PDF</button>
@@ -568,8 +611,6 @@
 
   <div class="board" id="tplBoard">
     <div class="tpl-top">
-      <div class="seg tpl-seg"><button id="tplModeDay" class="active">📅 День</button><button id="tplModeWeek">🗓️ Тиждень</button></div>
-      <div class="tpl-days" id="tplDays"></div>
       <span class="spacer"></span>
       <button class="btn tpl-time" id="tplTimeAll" title="Скопіювати час початку й кінця з цього дня на всі інші дні">⏰ Час — на всі дні</button>
       <button class="btn ghost tpl-cancel" id="tplCancelBtn">Скасувати</button>
@@ -580,6 +621,14 @@
     <div id="tplWeek"><div class="wscroll"><div class="wgrid" id="tplWgrid"></div></div></div>
     <div class="row-head tplhead" id="tplHead"><div>Час</div><div>Тип</div><div>Предмет / гурток</div></div>
     <div id="tplRows"></div>
+    <div class="panel clubpanel">
+      <h2>🏆 Гуртки</h2>
+      <div id="clubList"></div>
+      <div class="vac-foot">
+        <button class="btn clubadd" id="clubAdd">＋ Додати гурток</button>
+        <span class="vac-hint">Вкажіть назву, дні й час — гурток сам з’явиться в розкладі кожного вибраного дня, на першому вільному рядку після уроків, що починаються раніше. Уроки шаблону гуртки не перекривають.</span>
+      </div>
+    </div>
     <div class="panel vacpanel">
       <h2>🏖️ Канікули</h2>
       <div id="vacList"></div>
@@ -651,10 +700,30 @@
   function lsKeys(pre){const o=[];for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key&&key.indexOf(pre)===0)o.push(key);}return o;}
   function emptyState(){const rows={};HOURS.forEach(h=>rows[h]={type:"Вільно",subject:"",hw:""});return{extra:"",clubs:"",notes:"",rows};}
   // ---------- шаблон тижня і канікули (зберігаються в документі акаунта) ----------
-  let tpls={},vacs={};   // {childId:{days:{wd:{hour:{type,subject}}}}}, {childId:[{id,name,from,to,clubsOff}]}
+  let tpls={},vacs={},clubTpls={};   // clubTpls: {childId:[{id,name,days:[wd],start,end,icon}]}
+  const CLUB_TYPES=["Гурток","Бокс","Музика"];
+  const CLUB_ICONS=['🎨','🥊','🎵','⚽','🏀','🏐','🎾','🏊','🤸','🥋','🩰','💃','🎹','🎸','🎻','🥁','🎤','🎭','📷','♟️','🤖','💻','🧪','🗣️','🌍','📚','✏️','🧶'];   // {childId:{days:{wd:{hour:{type,subject}}}}}, {childId:[{id,name,from,to,clubsOff}]}
   const fd=s=>{const d=parse(s);return d.getDate()+' '+MON[d.getMonth()];};
   function loadTpl(child){return tpls[child]||{days:{}};}
   function loadVac(child){return vacs[child]||[];}
+  function loadClubs(child){return clubTpls[child]||[];}
+  function saveClubs(child,v){clubTpls[child]=v;saveChildField('clubTpls',child,v);flashSaved();}
+  // розкладаємо гуртки дня по рядках: перший вільний рядок не раніше години початку
+  // і після всіх уже зайнятих рядків, що починаються раніше; уроки шаблону не перекриваємо
+  function placeClubs(rows,wd,child){
+    const list=loadClubs(child).filter(c=>(c.days||[]).includes(wd)&&(c.name||'').trim()&&!isNaN(toMin(c.start))).sort((a,b)=>toMin(a.start)-toMin(b.start));
+    const free=h=>rows[h].type==="Вільно"&&!(rows[h].subject||'').trim();
+    const skipped=[];
+    list.forEach(c=>{const cs=toMin(c.start);
+      let lo=HOURS.findIndex(h=>h>=Math.floor(cs/60));if(lo<0)lo=HOURS.length-1;
+      HOURS.forEach((h,i)=>{if(!free(h)&&toMin(rows[h].start)<=cs)lo=Math.max(lo,i+1);});
+      let i=HOURS.findIndex((h,j)=>j>=lo&&free(h));
+      if(i<0){for(let j=HOURS.length-1;j>=0;j--)if(free(HOURS[j])){i=j;break;}}
+      if(i<0){skipped.push(c);return;}
+      const end=isNaN(toMin(c.end))||toMin(c.end)<=cs?fromMin(cs+60):c.end;
+      rows[HOURS[i]]={type:"Гурток",subject:c.name.trim(),start:c.start,end,icon:c.icon||"",color:"",club:c.id};});
+    return skipped;
+  }
   function saveChildField(field,child,val){
     if(!uid||!db)return;
     const fp=new firebase.firestore.FieldPath(field,child);
@@ -668,6 +737,7 @@
     HOURS.forEach(h=>{let r=day[h]||{};const type=r.type||"Вільно";
       if(vac&&(vac.clubsOff||SCHOOL_TYPES.includes(type)))r={};
       rows[h]={type:r.type||"Вільно",subject:r.subject||"",start:r.start||defStart(h),end:r.end||defEnd(h),icon:r.icon||"",color:r.color||""};});
+    if(!(vac&&vac.clubsOff))placeClubs(rows,parse(d).getDay(),child);
     return rows;
   }
   // день = шаблон + зміни саме на цю дату
@@ -703,8 +773,8 @@
 
   // children
   async function loadKids(){
-    kids=[];cur=null;tpls={};vacs={};styles={};
-    try{const doc=await userDoc().get();if(doc.exists){const d=doc.data();kids=Array.isArray(d.kids)?d.kids:[];cur=d.current;tpls=d.tpls||{};vacs=d.vacs||{};styles=d.styles||{};}}catch(e){console.error(e);}
+    kids=[];cur=null;tpls={};vacs={};clubTpls={};styles={};
+    try{const doc=await userDoc().get();if(doc.exists){const d=doc.data();kids=Array.isArray(d.kids)?d.kids:[];cur=d.current;tpls=d.tpls||{};vacs=d.vacs||{};clubTpls=d.clubTpls||{};styles=d.styles||{};}}catch(e){console.error(e);}
     if(!kids.length){kids=[{id:genId(),name:'Дитина 1'}];cur=kids[0].id;saveKids();}
     if(!kids.find(k=>k.id===cur))cur=kids[0].id;
   }
@@ -724,7 +794,7 @@
   async function rerender(){if(view==='day')await refreshDay();else if(view==='week')await renderWeek();else renderTplAll();updateVacBanner();}
   async function selectChild(id){if(id===cur)return;tplLeave();await flushSaves();cur=id;await saveKids();renderPills();await rerender();}
   async function addChild(){if(kids.length>=MAX_KIDS)return;tplLeave();await flushSaves();const k={id:genId(),name:''};kids.push(k);cur=k.id;await saveKids();renderPills();startEdit($('pills').querySelector('.pill[data-id="'+k.id+'"] .pname'));await rerender();}
-  async function removeChild(id){if(kids.length<=1){alert('Має лишитися хоча б одна дитина.');return;}const k=kids.find(x=>x.id===id);if(!confirm(`Видалити «${k.name}» разом з її розкладом?`))return;tplLeave();await flushSaves();try{const q=await schCol().where('childId','==',id).get();const b=db.batch();q.forEach(dd=>b.delete(dd.ref));await b.commit();}catch(e){console.error(e);}delete tpls[id];delete vacs[id];delete styles[id];try{const del=firebase.firestore.FieldValue.delete();await userDoc().update(new firebase.firestore.FieldPath('tpls',id),del,new firebase.firestore.FieldPath('vacs',id),del,new firebase.firestore.FieldPath('styles',id),del);}catch(e){console.error(e);}kids=kids.filter(x=>x.id!==id);if(cur===id)cur=kids[0].id;saveKids();renderPills();await rerender();}
+  async function removeChild(id){if(kids.length<=1){alert('Має лишитися хоча б одна дитина.');return;}const k=kids.find(x=>x.id===id);if(!confirm(`Видалити «${k.name}» разом з її розкладом?`))return;tplLeave();await flushSaves();try{const q=await schCol().where('childId','==',id).get();const b=db.batch();q.forEach(dd=>b.delete(dd.ref));await b.commit();}catch(e){console.error(e);}delete tpls[id];delete vacs[id];delete clubTpls[id];delete styles[id];try{const del=firebase.firestore.FieldValue.delete();await userDoc().update(new firebase.firestore.FieldPath('tpls',id),del,new firebase.firestore.FieldPath('vacs',id),del,new firebase.firestore.FieldPath('clubTpls',id),del,new firebase.firestore.FieldPath('styles',id),del);}catch(e){console.error(e);}kids=kids.filter(x=>x.id!==id);if(cur===id)cur=kids[0].id;saveKids();renderPills();await rerender();}
   async function renameChild(id,name){const k=kids.find(x=>x.id===id);if(!k)return;name=(name||'').trim().slice(0,24);if(!name)name=(k.name||'').trim()||('Дитина '+(kids.indexOf(k)+1));k.name=name;await saveKids();}
   $('pills').addEventListener('click',e=>{const pill=e.target.closest('.pill');if(!pill)return;const id=pill.dataset.id;if(e.target.classList.contains('pin')){setChildPin(id);return;}if(e.target.classList.contains('x')){removeChild(id);return;}if(e.target.classList.contains('ren')){startEdit(pill.querySelector('.pname'));return;}if(e.target.classList.contains('pname')&&e.target.isContentEditable)return;setKidMenu(false);selectChild(id);});
   function setKidMenu(open){$('kidMenu').hidden=!open;$('kidTrigger').setAttribute('aria-expanded',open);}
@@ -766,7 +836,7 @@
   function fixEnd(r){const s=toMin(r.querySelector('[data-k=start]').value),e=r.querySelector('[data-k=end]');if(!isNaN(s)&&!(toMin(e.value)>s))e.value=fromMin(s+45);}
 
   let curBase={};
-  function markTpl(r){const b=curBase[r.dataset.hour];if(!b){r.classList.remove('tpl');return;}const t=r.querySelector('[data-k=type]').value,s=r.querySelector('[data-k=subject]').value;r.classList.toggle('tpl',b.type!=="Вільно"&&t===b.type&&s===b.subject);}
+  function markTpl(r){r.classList.toggle('clubrow',CLUB_TYPES.includes(r.querySelector('[data-k=type]').value));const b=curBase[r.dataset.hour];if(!b){r.classList.remove('tpl');return;}const t=r.querySelector('[data-k=type]').value,s=r.querySelector('[data-k=subject]').value;r.classList.toggle('tpl',b.type!=="Вільно"&&t===b.type&&s===b.subject);}
   function applyDay(state){
     curBase=state.base||{};
     els.extra.value=state.extra||"";els.clubs.value=state.clubs||"";els.notes.value=state.notes||"";
@@ -823,7 +893,7 @@
     wgrid.innerHTML='';
     const corner=document.createElement('div');corner.className='whead corner';corner.innerHTML='<div class="wd">№</div>';wgrid.appendChild(corner);
     dates.forEach(d=>{const dt=parse(d);const h=document.createElement('div');h.className='whead'+(d===todayStr?' today':(wv[d]?' vac':''));h.dataset.date=d;h.innerHTML=`<div class="wd">${wv[d]?'🏖️ ':''}${WD_SHORT[dt.getDay()]}</div><div class="wdate">${String(dt.getDate()).padStart(2,'0')}.${String(dt.getMonth()+1).padStart(2,'0')}</div>`;h.title='Відкрити цей день';wgrid.appendChild(h);});
-    HOURS.forEach((hr,i)=>{const t=document.createElement('div');t.className='wtime';t.style.setProperty('--rc',RC[i%RC.length]);t.textContent=String(i+1);wgrid.appendChild(t);dates.forEach(d=>{const cell=document.createElement('div');cell.className='wcell'+(d===todayStr?' todaycol':(wv[d]?' vaccol':''));const rd=(weekCache[d].rows&&weekCache[d].rows[hr])||{type:"Вільно",subject:""};cell.dataset.type=rd.type||"Вільно";cell.dataset.date=d;cell.dataset.hour=hr;const st=styleFor(cur,rd);if(st.color){cell.style.setProperty('--free',st.color);cell.classList.add('tinted');}if(rd.type!=="Вільно"||rd.subject){const m=document.createElement('div');m.className='wmeta';m.innerHTML=`<span>${escapeHtml(st.icon)}</span>${escapeHtml(rd.start||'')}–${escapeHtml(rd.end||'')}`;cell.appendChild(m);}const ta=document.createElement('textarea');ta.value=rd.subject||"";ta.placeholder="—";ta.dataset.min=44;cell.appendChild(ta);wgrid.appendChild(cell);});});
+    HOURS.forEach((hr,i)=>{const t=document.createElement('div');t.className='wtime';t.style.setProperty('--rc',RC[i%RC.length]);t.textContent=String(i+1);wgrid.appendChild(t);dates.forEach(d=>{const cell=document.createElement('div');cell.className='wcell'+(d===todayStr?' todaycol':(wv[d]?' vaccol':''));const rd=(weekCache[d].rows&&weekCache[d].rows[hr])||{type:"Вільно",subject:""};cell.dataset.type=rd.type||"Вільно";if(CLUB_TYPES.includes(rd.type))cell.classList.add('clubcell');cell.dataset.date=d;cell.dataset.hour=hr;const st=styleFor(cur,rd);if(st.color){cell.style.setProperty('--free',st.color);cell.classList.add('tinted');}if(rd.type!=="Вільно"||rd.subject){const m=document.createElement('div');m.className='wmeta';m.innerHTML=`<span>${escapeHtml(st.icon)}</span>${escapeHtml(rd.start||'')}–${escapeHtml(rd.end||'')}`;cell.appendChild(m);}const ta=document.createElement('textarea');ta.value=rd.subject||"";ta.placeholder="—";ta.dataset.min=44;cell.appendChild(ta);wgrid.appendChild(cell);});});
     wgrid.querySelectorAll('textarea').forEach(autolen);
     applyChildLock();
   }
@@ -848,7 +918,8 @@
   const tplHasAny=t=>Object.values((t&&t.days)||{}).some(d=>d&&Object.keys(d).length);
   function renderTplDays(){
     const tpl=tplSrc(),box=$('tplDays');box.innerHTML='';
-    TPL_ORDER.forEach(wd=>{const b=document.createElement('button');b.textContent=WD_SHORT[wd];b.dataset.wd=wd;b.title=WD_FULL[wd];const d=tpl.days&&tpl.days[wd];if(d&&Object.keys(d).length)b.classList.add('filled');if(wd===tplDay&&tplMode==='day')b.classList.add('active');box.appendChild(b);});
+    $('tplTrigLabel').textContent=tplMode==='week'?'🗓️ Весь тиждень':'📅 '+WD_FULL[tplDay];$('tplModeWeek').classList.toggle('active',tplMode==='week');
+    TPL_ORDER.forEach(wd=>{const b=document.createElement('button');b.type='button';b.textContent=WD_FULL[wd];b.dataset.wd=wd;const d=tpl.days&&tpl.days[wd];if(d&&Object.keys(d).length)b.classList.add('filled');if(wd===tplDay&&tplMode==='day')b.classList.add('active');box.appendChild(b);});
   }
   function applyTpl(){
     const day=(tplSrc().days||{})[tplDay]||{};
@@ -867,16 +938,16 @@
     $('tplTimeAll').style.display=tplEdit&&tplMode==='day'?'':'none';
     const s=$('tplStatus');s.className='tpl-status'+(tplEdit?' edit':'')+(tplEdit&&tplDirty?' dirty':'');
     s.textContent=tplEdit?'✏️ Редагування: змініть потрібні дні, потім натисніть «Зберегти».':(tplHasAny(loadTpl(cur))?'✅ Шаблон збережено. Щоб щось поправити — «Змінити».':'Шаблон порожній — натисніть «Змінити» і заповніть розклад.');
-    $('tplModeDay').classList.toggle('active',tplMode==='day');$('tplModeWeek').classList.toggle('active',tplMode==='week');
     $('tplRows').style.display=tplMode==='day'?'':'none';$('tplHead').style.display=tplMode==='day'?'':'none';$('tplWeek').style.display=tplMode==='week'?'block':'none';
   }
   function renderTplWeek(){
     const g=$('tplWgrid'),tpl=tplSrc();g.innerHTML='';
     const c=document.createElement('div');c.className='whead corner';c.innerHTML='<div class="wd">№</div>';g.appendChild(c);
     TPL_ORDER.forEach(wd=>{const hd=document.createElement('div');hd.className='whead'+(wd===tplDay?' sel':'');hd.dataset.wd=wd;hd.innerHTML=`<div class="wd">${WD_SHORT[wd]}</div><div class="wdate">${WD_FULL[wd]}</div>`;hd.title='Відкрити цей день';g.appendChild(hd);});
+    const byWd={};TPL_ORDER.forEach(wd=>{const rows={};HOURS.forEach(hr=>{const d=((tpl.days||{})[wd]||{})[hr]||{};rows[hr]={type:d.type||'Вільно',subject:d.subject||'',start:d.start||defStart(hr),end:d.end||defEnd(hr),icon:d.icon||'',color:d.color||''};});placeClubs(rows,wd,cur);byWd[wd]=rows;});
     HOURS.forEach((hr,i)=>{const t=document.createElement('div');t.className='wtime';t.style.setProperty('--rc',RC[i%RC.length]);t.textContent=String(i+1);g.appendChild(t);
-      TPL_ORDER.forEach(wd=>{const d=((tpl.days||{})[wd]||{})[hr]||{};const rd={type:d.type||'Вільно',subject:d.subject||'',start:d.start||defStart(hr),end:d.end||defEnd(hr),icon:d.icon||'',color:d.color||''};
-        const cell=document.createElement('div');cell.className='wcell';cell.dataset.type=rd.type;cell.dataset.wd=wd;cell.title='Відкрити цей день';
+      TPL_ORDER.forEach(wd=>{const rd=byWd[wd][hr];
+        const cell=document.createElement('div');cell.className='wcell'+(CLUB_TYPES.includes(rd.type)?' clubcell':'');cell.dataset.type=rd.type;cell.dataset.wd=wd;cell.title='Відкрити цей день';
         const st=styleFor(cur,rd);if(st.color){cell.style.setProperty('--free',st.color);cell.classList.add('tinted');}
         if(rd.type!=='Вільно'||rd.subject){cell.innerHTML=`<div class="wmeta"><span>${escapeHtml(st.icon)}</span>${escapeHtml(rd.start)}–${escapeHtml(rd.end)}</div><div class="wsubj">${escapeHtml(rd.subject||rd.type)}</div>`;}
         else cell.innerHTML='<div class="wempty">—</div>';
@@ -884,7 +955,7 @@
   }
   function renderTplAll(){
     if(!tplEdit&&!tplHasAny(loadTpl(cur))){tplDraft=clone(loadTpl(cur));tplDraft.days=tplDraft.days||{};tplEdit=true;tplDirty=false;}
-    renderTplDays();applyTpl();if(tplMode==='week')renderTplWeek();renderVac();updateTplBar();
+    renderTplDays();applyTpl();if(tplMode==='week')renderTplWeek();renderClubs();renderVac();updateTplBar();
   }
   function collectIntoDraft(){if(tplEdit&&tplDraft&&tplMode==='day'){tplDraft.days=tplDraft.days||{};tplDraft.days[tplDay]=collectTplDay();}}
   function collectTplDay(){const o={};tplRows.querySelectorAll('.row').forEach(r=>{const h=r.dataset.hour,d=readRow(r),x={};if(d.type!=='Вільно')x.type=d.type;if(d.subject.trim())x.subject=d.subject;if(d.start&&d.start!==defStart(h))x.start=d.start;if(d.end&&d.end!==defEnd(h))x.end=d.end;if(d.icon)x.icon=d.icon;if(d.color)x.color=d.color;if(Object.keys(x).length)o[h]=Object.assign({type:d.type,subject:d.subject},x);});return o;}
@@ -899,9 +970,12 @@
   $('tplSaveBtn').addEventListener('click',tplSave);
   $('tplCancelBtn').addEventListener('click',()=>{if(tplDirty&&!confirm('Скасувати всі незбережені зміни?'))return;tplCancel();renderTplAll();});
   function tplOpenDay(wd){collectIntoDraft();tplDay=wd;tplMode='day';renderTplDays();applyTpl();updateTplBar();}
-  $('tplDays').addEventListener('click',e=>{const b=e.target.closest('button');if(b)tplOpenDay(+b.dataset.wd);});
-  $('tplModeDay').addEventListener('click',()=>tplOpenDay(tplDay));
-  $('tplModeWeek').addEventListener('click',()=>{collectIntoDraft();tplMode='week';renderTplDays();renderTplWeek();updateTplBar();});
+  $('tplDays').addEventListener('click',e=>{const b=e.target.closest('button');if(b){setTplMenu(false);tplOpenDay(+b.dataset.wd);}});
+  function setTplMenu(open){$('tplMenu').hidden=!open;$('tplTrigger').setAttribute('aria-expanded',open);}
+  $('tplTrigger').addEventListener('click',()=>setTplMenu($('tplMenu').hidden));
+  document.addEventListener('click',e=>{if(!$('tplMenu').hidden&&!e.composedPath().includes($('tplNav')))setTplMenu(false);});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('tplMenu').hidden){setTplMenu(false);$('tplTrigger').focus();}});
+  $('tplModeWeek').addEventListener('click',()=>{setTplMenu(false);collectIntoDraft();tplMode='week';renderTplDays();renderTplWeek();updateTplBar();});
   $('tplWgrid').addEventListener('click',e=>{const x=e.target.closest('[data-wd]');if(x)tplOpenDay(+x.dataset.wd);});
   tplRows.addEventListener('input',e=>{if(e.target.tagName==='TEXTAREA'){autolen(e.target);paintRow(e.target.closest('.row'));markTplDirty();}});
   tplRows.addEventListener('change',e=>{const r=e.target.closest('.row');if(!r)return;if(e.target.classList.contains('tm')){if(e.target.dataset.k==='start')fixEnd(r);markTplDirty();}else if(e.target.classList.contains('type-sel')){paintRow(r);markTplDirty();}});
@@ -914,6 +988,37 @@
       const empty=t.type==='Вільно'&&!(t.subject||'').trim()&&!t.start&&!t.end&&!t.icon&&!t.color;if(empty)delete day[h];else day[h]=t;});});
     tplDirty=true;renderTplDays();updateTplBar();
   });
+
+  // ---------- ГУРТКИ (окрема форма шаблону) ----------
+  function clubConflicts(){const out={},tpl=loadTpl(cur);
+    TPL_ORDER.forEach(wd=>{const rows={};HOURS.forEach(hr=>{const d=((tpl.days||{})[wd]||{})[hr]||{};rows[hr]={type:d.type||'Вільно',subject:d.subject||'',start:d.start||defStart(hr)};});
+      placeClubs(rows,wd,cur).forEach(c=>{(out[c.id]=out[c.id]||[]).push(WD_SHORT[wd]);});});
+    return out;}
+  function renderClubs(){
+    const list=loadClubs(cur),box=$('clubList');box.innerHTML='';
+    if(!list.length){box.innerHTML='<div class="vac-empty">Гуртків ще немає. Додайте секції й гуртки — вони автоматично з’являться в розкладі у вибрані дні.</div>';return;}
+    const bad=clubConflicts();
+    list.forEach(c=>{const it=document.createElement('div');it.className='clubitem';it.dataset.id=c.id;
+      const icons=CLUB_ICONS.includes(c.icon||'🎨')?CLUB_ICONS:[c.icon,...CLUB_ICONS];
+      it.innerHTML=`<select class="cicon" data-k="icon" title="Емодзі">${icons.map(e=>`<option${e===(c.icon||'🎨')?' selected':''}>${e}</option>`).join('')}</select>
+        <input class="cname" type="text" data-k="name" maxlength="40" placeholder="Назва, напр. Плавання" value="${escapeHtml(c.name||'')}">
+        <div class="cdays">${TPL_ORDER.map(wd=>`<button type="button" data-wd="${wd}" class="${(c.days||[]).includes(wd)?'on':''}" title="${WD_FULL[wd]}">${WD_SHORT[wd]}</button>`).join('')}</div>
+        <div class="ctime"><input type="time" data-k="start" value="${c.start||''}" aria-label="Початок"><span>–</span><input type="time" data-k="end" value="${c.end||''}" aria-label="Кінець"></div>
+        <button class="del" title="Видалити">✕</button>
+        ${bad[c.id]?`<div class="cwarn">⚠️ Немає вільного рядка: ${bad[c.id].join(', ')} — звільніть місце в шаблоні.</div>`:''}`;
+      box.appendChild(it);});
+  }
+  function clubsChanged(list){saveClubs(cur,list);renderClubs();if(tplMode==='week')renderTplWeek();}
+  function editClub(id,fn){const list=loadClubs(cur).map(x=>Object.assign({},x,{days:(x.days||[]).slice()})),c=list.find(x=>x.id===id);if(!c)return;fn(c);clubsChanged(list);}
+  $('clubList').addEventListener('change',e=>{const it=e.target.closest('.clubitem'),k=e.target.dataset.k;if(!it||!k)return;
+    editClub(it.dataset.id,c=>{c[k]=e.target.value;if(k==='start'&&c.start&&!(toMin(c.end)>toMin(c.start)))c.end=fromMin(toMin(c.start)+60);});});
+  $('clubList').addEventListener('click',e=>{const it=e.target.closest('.clubitem');if(!it)return;
+    const day=e.target.closest('.cdays button');
+    if(day){const wd=+day.dataset.wd;editClub(it.dataset.id,c=>{c.days=c.days.includes(wd)?c.days.filter(x=>x!==wd):c.days.concat(wd);});return;}
+    if(!e.target.classList.contains('del'))return;
+    const list=loadClubs(cur),c=list.find(x=>x.id===it.dataset.id);if(!confirm(`Видалити гурток «${(c&&c.name)||'без назви'}»?`))return;
+    clubsChanged(list.filter(x=>x.id!==it.dataset.id));});
+  $('clubAdd').addEventListener('click',()=>{const c={id:genId(),name:'',days:[],start:'15:00',end:'16:00',icon:'🎨'};clubsChanged(loadClubs(cur).concat(c));const inp=$('clubList').querySelector(`.clubitem[data-id="${c.id}"] .cname`);if(inp)inp.focus();});
 
   // ---------- КАНІКУЛИ ----------
   function renderVac(){
@@ -945,7 +1050,7 @@
     flushSaves();view=v;
     $('tabDay').classList.toggle('active',v==='day');$('tabWeek').classList.toggle('active',v==='week');$('tabTpl').classList.toggle('active',v==='tpl');
     $('dayBoard').style.display=v==='day'?'block':'none';$('weekBoard').style.display=v==='week'?'block':'none';$('tplBoard').style.display=v==='tpl'?'block':'none';
-    $('dayNav').style.display=v==='day'?'inline-flex':'none';$('weekNav').style.display=v==='week'?'inline-flex':'none';
+    $('dayNav').style.display=v==='day'?'inline-flex':'none';$('weekNav').style.display=v==='week'?'inline-flex':'none';$('tplNav').style.display=v==='tpl'?'inline-flex':'none';if(v!=='tpl')setTplMenu(false);
     $('panels').style.display=v==='tpl'?'none':'';
     rerender();
   }
