@@ -72,7 +72,22 @@
   .datebox .btn.today{padding:10px 16px}
 
   /* child bar */
-  .childbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;background:var(--card);border-radius:20px;padding:12px 14px;box-shadow:var(--shadow)}
+  .kidbox{position:relative}
+  .kid-trigger{display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:var(--card);border:0;border-radius:20px;padding:10px 40px 10px 16px;box-shadow:var(--shadow);cursor:pointer;font:inherit;color:var(--ink);position:relative;min-width:150px;text-align:left}
+  .kid-trigger .kt-label{font-weight:800;font-size:12px;color:var(--ink-soft)}
+  .kid-trigger .kt-name{font-size:18px;font-weight:800;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .kid-trigger .kt-arrow{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--ink-soft);transition:transform .15s}
+  .kid-trigger[aria-expanded=true] .kt-arrow{transform:translateY(-50%) rotate(180deg)}
+  .kid-menu{position:absolute;top:calc(100% + 8px);left:0;z-index:40;width:min(300px,calc(100vw - 32px));background:var(--card);border-radius:18px;padding:10px;box-shadow:0 14px 34px -10px rgba(40,70,110,.5);display:flex;flex-direction:column;gap:10px}
+  .kid-menu[hidden]{display:none}
+  .kid-menu .pills{flex-direction:column;flex-wrap:nowrap;gap:6px}
+  .kid-menu .pill{width:100%;justify-content:flex-start;padding:8px 10px}
+  .kid-menu .pill .pname{flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .kid-menu .pill .pname[contenteditable=true]{white-space:normal}
+  .pill .ren{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-size:12px;opacity:.5;transition:.15s}
+  .pill .ren:hover{opacity:1;background:rgba(59,158,245,.18)}
+  .km-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .km-actions button{flex:1;white-space:nowrap}
   .cb-label{font-weight:800;font-size:12px;color:var(--ink-soft);padding-left:4px;text-transform:uppercase;letter-spacing:.06em}
   .pills{display:flex;flex-wrap:wrap;gap:8px}
   .pill{display:inline-flex;align-items:center;gap:8px;border:2.5px solid #E5EDF4;background:#F5F9FD;color:var(--ink);border-radius:999px;padding:7px 10px 7px 15px;cursor:pointer;font:inherit;font-weight:800;font-size:15px;transition:.15s}
@@ -86,7 +101,7 @@
   .addchild{border:2.5px dashed #B9C7D3;background:#fff;color:var(--ink-soft);font-weight:800;border-radius:999px;padding:8px 16px;cursor:pointer;font:inherit;font-weight:800}
   .addchild:hover{border-color:var(--green);color:var(--green-d)}
   .addchild:disabled{opacity:.5;cursor:not-allowed}
-  .cb-hint{font-size:12px;color:var(--ink-soft);margin-left:auto;font-weight:700}
+  .cb-hint{font-size:12px;color:var(--ink-soft);font-weight:700;text-align:center}
 
   /* toolbar */
   .toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
@@ -310,7 +325,7 @@
   .pill .pin.on{opacity:1}
   .pill.active .pin{opacity:.75}
   .pill.active .pin.on{opacity:1}
-  body.childmode .childbar{display:none}
+  body.childmode .kidbox{display:none}
   #childHint{align-items:center;gap:8px;background:linear-gradient(180deg,#EAF6FF,#DCEEFF);border:2px solid #BFE0FB;color:#2C6EA8;font-weight:800;font-size:14px;border-radius:16px;padding:11px 16px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
   #childHint b{color:#1F5C90}
   /* у дитячому режимі поля розкладу виглядають як просто текст, а ДЗ лишається активним */
@@ -332,15 +347,16 @@
     body{padding:0;color:#000}
     .decor,.grass,#nowline{display:none !important}
     #authScreen,.userbox,.btn.migrate{display:none !important}
-    .toolbar,.childbar .x,.addchild,.cb-hint,.save-note,.seg,.day-nav,.week-nav,.datebox .btn.today{display:none !important}
+    .toolbar,.kid-menu,.kid-trigger .kt-arrow,.save-note,.seg,.day-nav,.week-nav,.datebox .btn.today{display:none !important}
     .wrap{max-width:100%}
     header.top{margin-bottom:8px}
     .brand h1{font-size:30px;-webkit-text-stroke:2px #fff;filter:none}
     .brand .eyebrow{font-size:12px}
     .datebox{padding:6px 12px;box-shadow:none}
     .datebox input{font-size:15px}
-    .childbar{padding:6px 12px;margin-bottom:8px}
-    .panel,.datebox,.childbar,.row,.row-head,.wgrid{box-shadow:none !important}
+    .kid-trigger{padding:6px 12px;min-width:0}
+    .kid-trigger .kt-name{font-size:15px}
+    .panel,.datebox,.kid-trigger,.row,.row-head,.wgrid{box-shadow:none !important}
     .wscroll{overflow:visible}.wgrid{min-width:0}
     /* keep each lesson row together on a page */
     .row{break-inside:avoid;page-break-inside:avoid;margin-top:6px}
@@ -482,20 +498,23 @@
       <div class="db-field"><label for="date">📅 Дата</label><input type="date" id="date"></div>
       <button class="btn today" id="todayBtn">⭐ Сьогодні</button>
     </div>
+    <div class="kidbox" id="kidBox">
+      <button type="button" class="kid-trigger" id="kidTrigger" aria-haspopup="true" aria-expanded="false" aria-controls="kidMenu"><span class="kt-label">🧒 Дитина</span><span class="kt-name" id="kidCur"></span><span class="kt-arrow">▾</span></button>
+      <div class="kid-menu" id="kidMenu" hidden>
+        <div class="pills" id="pills"></div>
+        <div class="km-actions">
+          <button class="addchild" id="addChild">＋ дитина</button>
+          <button class="childlogin" id="childLoginBtn">🧒 Вхід дитина</button>
+        </div>
+        <span class="cb-hint">✏️ — перейменувати · 🔒 — PIN для входу дитини</span>
+      </div>
+    </div>
     <div class="userbox">
       <span class="uemail" id="uemail"></span>
       <button class="btn migrate" id="migrateBtn" style="display:none" title="Перенести розклад із памʼяті цього браузера у ваш акаунт">↥ Старі дані</button>
       <button class="btn logout" id="logoutBtn">Вийти</button>
     </div>
   </header>
-
-  <div class="childbar">
-    <span class="cb-label">🧒 Дитина</span>
-    <div class="pills" id="pills"></div>
-    <button class="addchild" id="addChild">＋ дитина</button>
-    <button class="childlogin" id="childLoginBtn">🧒 Вхід дитина</button>
-    <span class="cb-hint">клацніть «＋ дитина» і впишіть ім’я · подвійний клік — перейменувати · 🔒 — PIN для входу дитини</span>
-  </div>
 
   <div id="childLoginModal" class="modal-back" style="display:none">
     <div class="modal-card">
@@ -690,9 +709,11 @@
     if(!kids.find(k=>k.id===cur))cur=kids[0].id;
   }
   function saveKids(){if(!uid||!db)return;userDoc().set({kids,current:cur},{merge:true}).catch(e=>console.error(e));}
+  function updateKidCur(){const k=kids.find(x=>x.id===cur);$('kidCur').textContent=(k&&k.name)||'Імʼя дитини';}
   function renderPills(){
     const box=$('pills');box.innerHTML='';
-    kids.forEach(k=>{const p=document.createElement('button');p.className='pill'+(k.id===cur?' active':'');p.dataset.id=k.id;p.innerHTML=`<span class="pin${k.pinHash?' on':''}" title="${k.pinHash?'PIN встановлено — натисніть, щоб змінити':'Встановити PIN для входу дитини'}">🔒</span><span class="pname" title="двічі клацніть, щоб перейменувати">${escapeHtml(k.name)}</span><span class="x" title="Видалити">✕</span>`;box.appendChild(p);});
+    kids.forEach(k=>{const p=document.createElement('button');p.className='pill'+(k.id===cur?' active':'');p.dataset.id=k.id;p.innerHTML=`<span class="pin${k.pinHash?' on':''}" title="${k.pinHash?'PIN встановлено — натисніть, щоб змінити':'Встановити PIN для входу дитини'}">🔒</span><span class="pname">${escapeHtml(k.name)}</span><span class="ren" title="Перейменувати">✏️</span><span class="x" title="Видалити">✕</span>`;box.appendChild(p);});
+    updateKidCur();
     $('addChild').disabled=kids.length>=MAX_KIDS;$('addChild').textContent=kids.length>=MAX_KIDS?'максимум 5':'＋ дитина';
     updateAccountControls();
   }
@@ -705,11 +726,14 @@
   async function addChild(){if(kids.length>=MAX_KIDS)return;tplLeave();await flushSaves();const k={id:genId(),name:''};kids.push(k);cur=k.id;await saveKids();renderPills();startEdit($('pills').querySelector('.pill[data-id="'+k.id+'"] .pname'));await rerender();}
   async function removeChild(id){if(kids.length<=1){alert('Має лишитися хоча б одна дитина.');return;}const k=kids.find(x=>x.id===id);if(!confirm(`Видалити «${k.name}» разом з її розкладом?`))return;tplLeave();await flushSaves();try{const q=await schCol().where('childId','==',id).get();const b=db.batch();q.forEach(dd=>b.delete(dd.ref));await b.commit();}catch(e){console.error(e);}delete tpls[id];delete vacs[id];delete styles[id];try{const del=firebase.firestore.FieldValue.delete();await userDoc().update(new firebase.firestore.FieldPath('tpls',id),del,new firebase.firestore.FieldPath('vacs',id),del,new firebase.firestore.FieldPath('styles',id),del);}catch(e){console.error(e);}kids=kids.filter(x=>x.id!==id);if(cur===id)cur=kids[0].id;saveKids();renderPills();await rerender();}
   async function renameChild(id,name){const k=kids.find(x=>x.id===id);if(!k)return;name=(name||'').trim().slice(0,24);if(!name)name=(k.name||'').trim()||('Дитина '+(kids.indexOf(k)+1));k.name=name;await saveKids();}
-  $('pills').addEventListener('click',e=>{const pill=e.target.closest('.pill');if(!pill)return;const id=pill.dataset.id;if(e.target.classList.contains('pin')){setChildPin(id);return;}if(e.target.classList.contains('x')){removeChild(id);return;}if(e.target.classList.contains('pname')&&e.target.isContentEditable)return;selectChild(id);});
+  $('pills').addEventListener('click',e=>{const pill=e.target.closest('.pill');if(!pill)return;const id=pill.dataset.id;if(e.target.classList.contains('pin')){setChildPin(id);return;}if(e.target.classList.contains('x')){removeChild(id);return;}if(e.target.classList.contains('ren')){startEdit(pill.querySelector('.pname'));return;}if(e.target.classList.contains('pname')&&e.target.isContentEditable)return;setKidMenu(false);selectChild(id);});
+  function setKidMenu(open){$('kidMenu').hidden=!open;$('kidTrigger').setAttribute('aria-expanded',open);}
+  $('kidTrigger').addEventListener('click',()=>setKidMenu($('kidMenu').hidden));
+  document.addEventListener('click',e=>{if(!$('kidMenu').hidden&&!e.composedPath().includes($('kidBox')))setKidMenu(false);});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('kidMenu').hidden&&!(e.target.isContentEditable)){setKidMenu(false);$('kidTrigger').focus();}});
   function startEdit(s){if(!s)return;s.contentEditable=true;s.focus();const r=document.createRange();r.selectNodeContents(s);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);}
-  $('pills').addEventListener('dblclick',e=>{if(!e.target.classList.contains('pname'))return;startEdit(e.target);});
   $('pills').addEventListener('keydown',e=>{if(e.target.classList.contains('pname')&&e.key==='Enter'){e.preventDefault();e.target.blur();}});
-  $('pills').addEventListener('blur',e=>{if(!e.target.classList||!e.target.classList.contains('pname'))return;const pill=e.target.closest('.pill');e.target.contentEditable=false;renameChild(pill.dataset.id,e.target.textContent).then(flashSaved);},true);
+  $('pills').addEventListener('blur',e=>{if(!e.target.classList||!e.target.classList.contains('pname'))return;const pill=e.target.closest('.pill');e.target.contentEditable=false;const id=pill.dataset.id,s=e.target;renameChild(id,s.textContent).then(()=>{const k=kids.find(x=>x.id===id);if(k)s.textContent=k.name;updateKidCur();flashSaved();});},true);
   $('addChild').addEventListener('click',addChild);
 
   // DAY
@@ -1158,7 +1182,7 @@
     $('togglePInPass').onclick=()=>{const i=$('pInPass'),s=i.type==='password';i.type=s?'text':'password';$('togglePInPass').textContent=s?'🙈':'👁️';};
     $('signOutLink').onclick=async e=>{e.preventDefault();lsDel(PFX+'lock');if(auth)await auth.signOut();};
     $('logoutBtn').onclick=async()=>{tplLeave();await flushSaves();if(mode==='child'){leaveChild();return;}lsDel(PFX+'lock');if(auth)await auth.signOut();};
-    $('childLoginBtn').onclick=openChildLogin;
+    $('childLoginBtn').onclick=()=>{setKidMenu(false);openChildLogin();};
     $('clCancel').onclick=closeChildLogin;
     $('clGo').onclick=verifyChild;
     $('clPin').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();verifyChild();}});
