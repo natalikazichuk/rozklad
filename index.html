@@ -367,8 +367,11 @@
   .whead.vac{background:linear-gradient(180deg,#FFC94D,#F5A300)}
   .wcell.vaccol{background:#FFFBEA}
   #tplBoard{display:none}
-  .tpl-intro{background:var(--card);border-radius:18px;padding:12px 16px;box-shadow:var(--shadow-sm);font-weight:700;font-size:14px;color:var(--ink-soft);margin-bottom:12px;line-height:1.45}
-  .tpl-intro b{color:var(--purple-d)}
+  .has-tip{position:relative}
+  .has-tip .tip{position:absolute;left:0;top:calc(100% + 12px);z-index:50;width:min(380px,calc(100vw - 32px));background:var(--card);color:var(--ink-soft);border-radius:14px;padding:12px 14px;box-shadow:0 12px 30px -8px rgba(42,58,70,.35);font-size:13.5px;font-weight:700;line-height:1.45;text-align:left;white-space:normal;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .15s,transform .15s,visibility .15s;pointer-events:none}
+  .has-tip .tip::before{content:"";position:absolute;left:28px;top:-6px;width:12px;height:12px;background:var(--card);transform:rotate(45deg)}
+  .has-tip .tip b{color:var(--purple-d)}
+  .has-tip:hover .tip,.has-tip:focus-visible .tip{opacity:1;visibility:visible;transform:none;transition-delay:.25s}
   .tpl-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
   .tpl-days{display:inline-flex;flex-wrap:wrap;gap:4px;background:#fff;border-radius:999px;padding:5px;box-shadow:var(--shadow-sm)}
   .tpl-days button{font:inherit;font-weight:800;font-size:15px;border:0;background:transparent;color:var(--ink-soft);padding:8px 13px;border-radius:999px;cursor:pointer;position:relative}
@@ -401,7 +404,7 @@
     .vacitem .del{justify-self:end}
   }
   @media print{
-    .tpl-top,.tpl-intro,.vac-foot,.vacitem .del,.row.tpl .cell-time::after{display:none !important}
+    .tpl-top,.vac-foot,.vacitem .del,.row.tpl .cell-time::after{display:none !important}
     .vacbanner{box-shadow:none}
   }
 </style>
@@ -517,7 +520,7 @@
   </div>
 
   <div class="toolbar">
-    <div class="seg"><button id="tabDay" class="active">День</button><button id="tabWeek">Тиждень</button><button id="tabTpl">🔁 Шаблон</button></div>
+    <div class="seg"><button id="tabDay" class="active">День</button><button id="tabWeek">Тиждень</button><button id="tabTpl" class="has-tip" aria-describedby="tplTip">🔁 Шаблон<span class="tip" id="tplTip" role="tooltip"><b>Шаблон тижня</b> — заповніть один раз уроки й гуртки на кожен день тижня, і вони самі з’являться в усіх тижнях. Зміни на конкретну дату (заміна, скасований урок) робіть у вкладці «День» — шаблон від цього не зміниться.</span></button></div>
     <span class="day-nav" id="dayNav">
       <button class="btn mini" id="prevDay" title="Попередній день">◀</button>
       <span class="day-name" id="dayName">—</span>
@@ -545,7 +548,6 @@
   <div class="board" id="weekBoard"><div class="wscroll"><div class="wgrid" id="wgrid"></div></div></div>
 
   <div class="board" id="tplBoard">
-    <div class="tpl-intro">🔁 <b>Шаблон тижня</b> — заповніть один раз уроки й гуртки на кожен день тижня, і вони самі з’являться в усіх тижнях. Зміни на конкретну дату (заміна, скасований урок) робіть у вкладці «День» — шаблон від цього не зміниться.</div>
     <div class="tpl-top">
       <div class="seg tpl-seg"><button id="tplModeDay" class="active">📅 День</button><button id="tplModeWeek">🗓️ Тиждень</button></div>
       <div class="tpl-days" id="tplDays"></div>
