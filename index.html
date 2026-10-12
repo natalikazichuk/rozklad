@@ -1005,13 +1005,19 @@
         <div class="cdays">${TPL_ORDER.map(wd=>`<button type="button" data-wd="${wd}" class="${(c.days||[]).includes(wd)?'on':''}" title="${WD_FULL[wd]}">${WD_SHORT[wd]}</button>`).join('')}</div>
         <div class="ctime"><input type="time" data-k="start" value="${c.start||''}" aria-label="Початок"><span>–</span><input type="time" data-k="end" value="${c.end||''}" aria-label="Кінець"></div>
         <button class="del" title="Видалити">✕</button>
-        ${bad[c.id]?`<div class="cwarn">⚠️ Немає вільного рядка: ${bad[c.id].join(', ')} — звільніть місце в шаблоні.</div>`:''}`;
+        <div class="cwarn"></div>`;
       box.appendChild(it);});
+    updateClubWarnings();
   }
-  function clubsChanged(list){saveClubs(cur,list);renderClubs();if(tplMode==='week')renderTplWeek();}
-  function editClub(id,fn){const list=loadClubs(cur).map(x=>Object.assign({},x,{days:(x.days||[]).slice()})),c=list.find(x=>x.id===id);if(!c)return;fn(c);clubsChanged(list);}
+  // попередження оновлюємо на місці, щоб не збивати фокус у полях
+  function updateClubWarnings(){const bad=clubConflicts();
+    $('clubList').querySelectorAll('.clubitem').forEach(it=>{const w=it.querySelector('.cwarn'),d=bad[it.dataset.id];w.style.display=d?'':'none';w.textContent=d?`⚠️ Немає вільного рядка: ${d.join(', ')} — звільніть місце в шаблоні.`:'';});}
+  function clubsChanged(list,rerender=true){saveClubs(cur,list);if(rerender)renderClubs();else updateClubWarnings();if(tplMode==='week')renderTplWeek();}
+  function editClub(id,fn,rerender){const list=loadClubs(cur).map(x=>Object.assign({},x,{days:(x.days||[]).slice()})),c=list.find(x=>x.id===id);if(!c)return;fn(c);clubsChanged(list,rerender);}
+  // поля (назва, час, емодзі) зберігаємо без перемальовування списку — інакше поле часу втрачає фокус після введення годин
   $('clubList').addEventListener('change',e=>{const it=e.target.closest('.clubitem'),k=e.target.dataset.k;if(!it||!k)return;
-    editClub(it.dataset.id,c=>{c[k]=e.target.value;if(k==='start'&&c.start&&!(toMin(c.end)>toMin(c.start)))c.end=fromMin(toMin(c.start)+60);});});
+    editClub(it.dataset.id,c=>{c[k]=e.target.value;
+      if(k==='start'&&c.start&&!(toMin(c.end)>toMin(c.start))){c.end=fromMin(toMin(c.start)+60);it.querySelector('[data-k=end]').value=c.end;}},false);});
   $('clubList').addEventListener('click',e=>{const it=e.target.closest('.clubitem');if(!it)return;
     const day=e.target.closest('.cdays button');
     if(day){const wd=+day.dataset.wd;editClub(it.dataset.id,c=>{c.days=c.days.includes(wd)?c.days.filter(x=>x!==wd):c.days.concat(wd);});return;}
