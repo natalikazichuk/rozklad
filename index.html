@@ -459,6 +459,47 @@
     .tpl-top,.vac-foot,.vacitem .del,.clubitem .del,.clubitem .cwarn,.row.tpl .cell-time::after{display:none !important}
     .vacbanner{box-shadow:none}
   }
+  /* ---- мобільна версія: компактна навігація ---- */
+  @media(max-width:760px){
+    body{padding-top:10px}
+    header.top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;margin-bottom:10px}
+    .brand{grid-column:1;grid-row:1}
+    .brand .eyebrow{display:none}
+    .brand h1{font-size:23px;line-height:1.05;-webkit-text-stroke:2px #fff;filter:none;white-space:nowrap}
+    .brand h1 .l1,.brand h1 .l2{display:inline}
+    .brand h1 .l2{margin-left:.25em}
+    .userbox{grid-column:2;grid-row:1;justify-self:end;width:auto;padding:0;background:transparent;box-shadow:none}
+    .userbox .uemail{display:none}
+    body.childmode .userbox .uemail{display:block;font-size:12px;max-width:110px}
+    .btn.logout,.btn.migrate{padding:6px 12px;font-size:13px}
+    .datebox{grid-column:1;grid-row:2;flex-wrap:nowrap;justify-content:space-between;gap:6px;padding:4px 4px 4px 12px;border-radius:14px;box-shadow:var(--shadow-sm);min-width:0}
+    .datebox label{display:none}
+    .datebox .db-field{min-width:0}
+    .datebox input{font-size:15px;min-width:0;width:100%}
+    .datebox .btn.today{padding:7px 10px;font-size:15px;flex:none}
+    .btxt{display:none}
+    .kidbox{grid-column:2;grid-row:2;display:flex;align-self:stretch}
+    body.childmode .datebox{grid-column:1/-1}
+    .kid-trigger{flex-direction:row;align-items:center;gap:6px;min-width:0;padding:8px 26px 8px 10px;border-radius:14px;box-shadow:var(--shadow-sm);flex:1}
+    .kid-trigger .kt-label{font-size:15px}
+    .kid-trigger .kt-name{font-size:15px;max-width:96px}
+    .kid-trigger .kt-arrow{right:9px;font-size:12px}
+    .kid-menu{left:auto;right:0}
+    .toolbar{gap:6px;margin-bottom:10px}
+    .seg{padding:3px;gap:2px}
+    .seg button{padding:6px 11px;font-size:13.5px}
+    .btn.print{padding:7px 11px;font-size:15px}
+    .day-nav,.week-nav,.tpl-nav{order:5;flex-basis:100%;gap:6px}
+    .btn.mini{padding:6px 12px;font-size:13px}
+    .day-name,.week-nav .wlabel{flex:1;min-width:0;text-align:center;font-size:15px;padding:6px 12px}
+    .tpl-trigger{flex:1;min-width:0;font-size:15px;padding:6px 14px}
+    .tpl-menu{right:0}
+    .tpl-top{gap:6px;margin-bottom:8px}
+    .tpl-top .btn{padding:7px 14px;font-size:13.5px}
+    .tpl-status{font-size:12px;margin:-2px 4px 8px}
+    .save-note{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:60;background:#fff;border-radius:999px;padding:6px 14px;box-shadow:var(--shadow-sm);pointer-events:none}
+  }
+  @media(hover:none){.has-tip .tip{display:none}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -532,10 +573,10 @@
     </div>
     <div class="datebox">
       <div class="db-field"><label for="date">📅 Дата</label><input type="date" id="date"></div>
-      <button class="btn today" id="todayBtn">⭐ Сьогодні</button>
+      <button class="btn today" id="todayBtn" title="Сьогодні">⭐<span class="btxt"> Сьогодні</span></button>
     </div>
     <div class="kidbox" id="kidBox">
-      <button type="button" class="kid-trigger" id="kidTrigger" aria-haspopup="true" aria-expanded="false" aria-controls="kidMenu"><span class="kt-label">🧒 Дитина</span><span class="kt-name" id="kidCur"></span><span class="kt-arrow">▾</span></button>
+      <button type="button" class="kid-trigger" id="kidTrigger" aria-haspopup="true" aria-expanded="false" aria-controls="kidMenu"><span class="kt-label">🧒<span class="btxt"> Дитина</span></span><span class="kt-name" id="kidCur"></span><span class="kt-arrow">▾</span></button>
       <div class="kid-menu" id="kidMenu" hidden>
         <div class="pills" id="pills"></div>
         <div class="km-actions">
@@ -595,7 +636,7 @@
     </span>
     <span class="save-note" id="saveNote">збережено ✓</span>
     <span class="spacer"></span>
-    <button class="btn print" id="printBtn">🖨️ Друк / PDF</button>
+    <button class="btn print" id="printBtn" title="Друк / PDF">🖨️<span class="btxt"> Друк / PDF</span></button>
   </div>
 
   <div id="childHint" style="display:none">👀 Розклад — лише для перегляду. Ти можеш заповнювати тільки <b>✏️ домашнє завдання</b>.</div>
